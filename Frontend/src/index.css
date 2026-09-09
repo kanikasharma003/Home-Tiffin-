@@ -1,111 +1,94 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import "tailwindcss";
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+@theme {
+  /* ==========================
+     🌿 VEG - GREEN
+     ========================== */
+  --color-veg-50: #F0FFE4;
+  --color-veg-100: #E4F7D2;
+  --color-veg-200: #C7E9A8;
+  --color-veg-300: #A8D76F;
+  --color-veg-400: #8CC63F;
+  --color-veg-500: #6BB015;
+  --color-veg-600: #5A970F;
+  --color-veg-700: #477A0B;
+  --color-veg-800: #355D08;
+  --color-veg-900: #243F05;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
+  /* ==========================
+     🍗 NON-VEG - BROWN / ORANGE
+     ========================== */
+  --color-nonveg-50: #FFF7E8;
+  --color-nonveg-100: #FCECCF;
+  --color-nonveg-200: #F4D6A5;
+  --color-nonveg-300: #E8B873;
+  --color-nonveg-400: #D89545;
+  --color-nonveg-500: #B8661C;
+  --color-nonveg-600: #9A4F12;
+  --color-nonveg-700: #783B0D;
+  --color-nonveg-800: #572A0A;
+  --color-nonveg-900: #3A1B07;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
+  /* ==========================
+     🥗 VEG BACKGROUND
+     ========================== */
+  --color-veg-bg: #F0FFE4;
+  --color-veg-section: #F7FBEF;
+  --color-veg-card: #FFFFFF;
 
-body {
-  margin: 0;
-}
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
+  /* ==========================
+     🍗 NON-VEG BACKGROUND
+     ========================== */
+  --color-nonveg-bg: #FFF9EE;
+  --color-nonveg-section: #FFF2D9;
+  --color-nonveg-card: #FFFFFF;
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
+  /* ==========================
+     📝 TEXT
+     ========================== */
+  --color-heading: #302015;
+  --color-text: #5A493B;
+  --color-muted: #8A7663;
+  --color-light-text: #B5A28F;
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+  /* ==========================
+     🟠 FOOD ACCENT
+     ========================== */
+  --color-orange: #E58A24;
+  --color-gold: #D99A20;
+
+
+  /* ==========================
+     🔴 NON-VEG BADGE
+     ========================== */
+  --color-nonveg-red: #B83220;
+  --color-nonveg-red-light: #E85D3F;
+
+
+  /* ==========================
+     🟢 VEG BADGE
+     ========================== */
+  --color-veg-green: #4F8A3A;
+
+
+  /* ==========================
+     ⚪ COMMON
+     ========================== */
+  --color-white: #FFFFFF;
+  --color-border: #EBDCC5;
+  --color-success: #4F8A3A;
+  --color-warning: #D99A20;
+  --color-danger: #B83220;
+
+
+  /* ==========================
+     🦶 FOOTER
+     ========================== */
+  --color-footer: #3A1D08;
+  --color-footer-light: #542B0C;
 }
