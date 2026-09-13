@@ -1,12 +1,9 @@
-// All page content for the TiffinBox landing page.
-
 /* =========================
    NAVIGATION
 ========================= */
 
 export const NAV_LINKS = [
   { label: "Home", href: "#home" },
-  { label: "Plans", href: "#plans" },
   { label: "Menu", href: "#menu" },
   { label: "How It Works", href: "#how-it-works" },
   { label: "About", href: "#about" },
@@ -61,25 +58,25 @@ export const FEATURES = [
     icon: "leaf",
     title: "Fresh & Healthy",
     description:
-      "Locally sourced veggies and grains, cooked every morning.",
+      "Locally sourced vegetables and grains, cooked fresh every morning.",
   },
   {
     icon: "home",
     title: "Homestyle Food",
     description:
-      "Traditional recipes made the way your family makes them.",
+      "Traditional recipes made with the comforting taste of homemade food.",
   },
   {
     icon: "shield",
     title: "Hygienic Kitchen",
     description:
-      "FSSAI-certified kitchens and sanitized packing.",
+      "Clean and hygienic kitchen practices with carefully packed meals.",
   },
   {
     icon: "truck",
     title: "Dabba Delivery",
     description:
-      "On-time delivery to your doorstep, every single day.",
+      "Fresh meals delivered safely and on time to your doorstep.",
   },
 ];
 
@@ -93,6 +90,7 @@ export const MENU_TABS = [
   "Jain",
   "Healthy",
   "Special",
+  "Non-Veg",
 ];
 
 /* =========================
@@ -107,7 +105,9 @@ export const MENU_ITEMS = [
       "Dal tadka, jeera rice, 3 phulkas, salad & pickle",
     price: 99,
     type: "Veg",
+    tag: "Veg",
     emoji: "🍲",
+    rating: 4.8,
     image:
       "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80",
     categories: ["All", "Veg", "Healthy"],
@@ -120,7 +120,9 @@ export const MENU_ITEMS = [
       "Paneer tikka, rumali roti, jeera rice & mint chutney",
     price: 109,
     type: "Veg",
+    tag: "Veg",
     emoji: "🧀",
+    rating: 4.9,
     image:
       "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=800&q=80",
     categories: ["All", "Veg", "Special"],
@@ -130,13 +132,15 @@ export const MENU_ITEMS = [
     id: 3,
     name: "Vegetable Biryani",
     description:
-      "Saffron veg biryani, boondi raita & papad",
+      "Saffron vegetable biryani, boondi raita & papad",
     price: 99,
     type: "Veg",
+    tag: "Veg",
     emoji: "🍚",
+    rating: 4.7,
     image:
       "https://images.unsplash.com/photo-1563379091339-03246963d96c?auto=format&fit=crop&w=800&q=80",
-    categories: ["All", "Veg"],
+    categories: ["All", "Veg", "Healthy"],
   },
 
   {
@@ -146,7 +150,9 @@ export const MENU_ITEMS = [
       "Amritsari chole, fluffy bhature & onion salad",
     price: 99,
     type: "Veg",
+    tag: "Special",
     emoji: "🫘",
+    rating: 4.8,
     image:
       "https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=800&q=80",
     categories: ["All", "Veg", "Special"],
@@ -159,7 +165,9 @@ export const MENU_ITEMS = [
       "Aloo gobi, 2 rotis, dal, rice & salad",
     price: 89,
     type: "Jain",
+    tag: "Jain",
     emoji: "🥘",
+    rating: 4.7,
     image:
       "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=800&q=80",
     categories: ["All", "Veg", "Jain", "Healthy"],
@@ -169,10 +177,12 @@ export const MENU_ITEMS = [
     id: 6,
     name: "Egg Curry Thali",
     description:
-      "Egg curry, rice, 2 parathas & salad",
+      "Egg curry, rice, 2 parathas & fresh salad",
     price: 119,
     type: "Non-Veg",
+    tag: "Non-Veg",
     emoji: "🥚",
+    rating: 4.8,
     image:
       "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80",
     categories: ["All", "Non-Veg"],
@@ -182,10 +192,12 @@ export const MENU_ITEMS = [
     id: 7,
     name: "Butter Chicken Thali",
     description:
-      "Butter chicken, naan, rice & pickle",
+      "Creamy butter chicken, naan, rice & pickle",
     price: 149,
     type: "Non-Veg",
+    tag: "Non-Veg",
     emoji: "🍛",
+    rating: 4.9,
     image:
       "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=80",
     categories: ["All", "Non-Veg", "Special"],
@@ -198,7 +210,9 @@ export const MENU_ITEMS = [
       "Protein-rich soya curry, rice & 3 rotis",
     price: 95,
     type: "Veg",
+    tag: "Healthy",
     emoji: "🥗",
+    rating: 4.6,
     image:
       "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
     categories: ["All", "Veg", "Healthy"],
@@ -304,7 +318,7 @@ export const STEPS = [
     icon: "clipboard",
     title: "Choose Your Plan",
     description:
-      "Select daily, weekly or monthly tiffin plans.",
+      "Select a meal option that fits your daily food needs.",
   },
 
   {
@@ -312,7 +326,7 @@ export const STEPS = [
     icon: "phone",
     title: "Select Your Meals",
     description:
-      "Pick from daily rotating homestyle menus.",
+      "Choose from our fresh and rotating homestyle menu.",
   },
 
   {
@@ -320,7 +334,7 @@ export const STEPS = [
     icon: "chef",
     title: "We Cook & Pack",
     description:
-      "Freshly prepared and hygienically packed.",
+      "Your meal is freshly prepared and hygienically packed.",
   },
 
   {
@@ -328,7 +342,7 @@ export const STEPS = [
     icon: "scooter",
     title: "We Deliver",
     description:
-      "Delivered hot to your doorstep on time.",
+      "Your fresh tiffin is delivered safely to your doorstep.",
   },
 ];
 
@@ -340,6 +354,8 @@ export const MEAL_PARTS = [
   {
     emoji: "🍛",
     name: "Sabzi",
+    title: "Fresh Sabzi",
+    description: "Freshly cooked seasonal vegetables",
     image:
       "https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7?auto=format&fit=crop&w=500&q=80",
   },
@@ -347,6 +363,8 @@ export const MEAL_PARTS = [
   {
     emoji: "🍜",
     name: "Dal",
+    title: "Dal",
+    description: "Protein-rich homemade dal",
     image:
       "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&q=80",
   },
@@ -354,6 +372,8 @@ export const MEAL_PARTS = [
   {
     emoji: "🍚",
     name: "Rice",
+    title: "Jeera Rice",
+    description: "Light and aromatic rice",
     image:
       "https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=500&q=80",
   },
@@ -361,6 +381,8 @@ export const MEAL_PARTS = [
   {
     emoji: "🫓",
     name: "Roti",
+    title: "Soft Rotis",
+    description: "Freshly prepared phulkas",
     image:
       "https://images.unsplash.com/photo-1610057099431-d7b0c2f5e4f3?auto=format&fit=crop&w=500&q=80",
   },
@@ -368,6 +390,8 @@ export const MEAL_PARTS = [
   {
     emoji: "🥗",
     name: "Salad",
+    title: "Fresh Salad",
+    description: "Crunchy seasonal salad",
     image:
       "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80",
   },
@@ -375,6 +399,8 @@ export const MEAL_PARTS = [
   {
     emoji: "🍮",
     name: "Sweet",
+    title: "Homemade Sweet",
+    description: "A little sweetness with your meal",
     image:
       "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80",
   },
@@ -427,6 +453,14 @@ export const TESTIMONIALS = [
     city: "Working Professional",
     rating: 4,
   },
+
+  {
+    text:
+      "The food feels fresh and homemade. It has become my regular lunch option.",
+    name: "Karan P.",
+    city: "Office Employee",
+    rating: 5,
+  },
 ];
 
 /* =========================
@@ -449,12 +483,12 @@ export const FAQS = [
   {
     question: "What if I need to skip a day?",
     answer:
-      "No worries — you can pause or skip any day from your dashboard before the cut-off time, and the amount is adjusted in your next cycle.",
+      "No worries. You can pause or skip any day from your dashboard before the cut-off time.",
   },
 
   {
     question: "Do you offer Jain or special meals?",
     answer:
-      "Absolutely. Jain, no-onion-garlic and high-protein options are available on all plans. Just select them in your preferences.",
+      "Absolutely. Jain, no-onion-garlic and high-protein options are available. You can select your preference while ordering.",
   },
 ];

@@ -1,83 +1,102 @@
-import { useState } from 'react'
-import { Icon } from './ui.jsx'
-import { NAV_LINKS } from '../data.js'
+import { useState } from "react";
+import { Icon } from "./ui.jsx";
+import { NAV_LINKS } from "../data.js";
 
 export function Header({ mode, onModeChange }) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const handleNav = (href) => {
-    setOpen(false)
+    setOpen(false);
 
-    if (!href) return
+    if (!href) return;
 
-    if (href === '#home') {
+    if (href === "#home") {
       window.scrollTo({
         top: 0,
-        behavior: 'smooth',
-      })
-      return
+        behavior: "smooth",
+      });
+      return;
     }
 
-    const section = document.querySelector(href)
+    const section = document.querySelector(href);
 
     if (section) {
       section.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
+        behavior: "smooth",
+        block: "start",
+      });
     }
-  }
+  };
 
   return (
     <header
       className="sticky inset-x-0 top-0 z-50 border-b bg-white"
       style={{
-        borderColor: 'var(--color-border)',
+        borderColor: "var(--color-border)",
       }}
     >
       <div className="mx-auto max-w-7xl px-4">
         <nav className="flex items-center justify-between gap-3 py-3 sm:px-1">
 
-          {/* Logo */}
+          {/* ================= LOGO ================= */}
           <button
             type="button"
-            onClick={() => handleNav('#home')}
+            onClick={() => handleNav("#home")}
             className="flex items-center gap-2"
           >
             <span
               className="grid h-9 w-9 place-items-center rounded-xl text-lg shadow-md"
-              style={{ background: 'var(--primary)' }}
+              style={{
+                background: "var(--primary)",
+              }}
             >
               🍱
             </span>
 
             <span
               className="font-display text-lg font-bold tracking-tight"
-              style={{ color: 'var(--color-heading)' }}
+              style={{
+                color: "var(--color-heading)",
+              }}
             >
               TiffinBox
             </span>
           </button>
 
-          {/* Desktop Navigation */}
+          {/* ================= DESKTOP NAVIGATION ================= */}
           <div className="hidden items-center gap-6 lg:flex">
+
             {NAV_LINKS.map((link) => (
               <button
                 key={link.label}
                 type="button"
                 onClick={() => handleNav(link.href)}
                 className="text-sm font-medium transition hover:text-primary-500"
-                style={{ color: 'var(--color-text)' }}
+                style={{
+                  color: "var(--color-text)",
+                }}
               >
                 {link.label}
               </button>
             ))}
+
+            {/* Become a Cook */}
+            <button
+              type="button"
+              onClick={() => handleNav("#become-cook")}
+              className="text-sm font-medium transition hover:text-primary-500"
+              style={{
+                color: "var(--color-text)",
+              }}
+            >
+              Become a Cook
+            </button>
           </div>
 
-          {/* Right Side */}
+          {/* ================= RIGHT SIDE ================= */}
           <div className="flex items-center gap-2 sm:gap-3">
 
-            {/* Veg / Non-Veg */}
+            {/* ================= VEG / NON-VEG ================= */}
             <div
               className="diet-toggle hidden sm:inline-flex"
               role="group"
@@ -85,95 +104,109 @@ export function Header({ mode, onModeChange }) {
             >
               <button
                 type="button"
-                className={mode === 'veg' ? 'active veg' : ''}
-                onClick={() => onModeChange('veg')}
+                className={mode === "veg" ? "active veg" : ""}
+                onClick={() => onModeChange("veg")}
               >
                 🌿 Veg
               </button>
 
               <button
                 type="button"
-                className={mode === 'nonveg' ? 'active nonveg' : ''}
-                onClick={() => onModeChange('nonveg')}
+                className={mode === "nonveg" ? "active nonveg" : ""}
+                onClick={() => onModeChange("nonveg")}
               >
                 🍗 Non-Veg
               </button>
             </div>
 
-            {/* Order Button */}
+            {/* ================= ORDER BUTTON ================= */}
             <button
               type="button"
-              onClick={() => handleNav('#plans')}
+              onClick={() => handleNav("#plans")}
               className="btn btn-primary hidden !px-5 !py-2 text-xs md:inline-flex"
             >
               Order Now
             </button>
 
-            {/* Mobile Menu */}
+            {/* ================= MOBILE MENU BUTTON ================= */}
             <button
               type="button"
               aria-label="Toggle menu"
               className="grid h-9 w-9 place-items-center rounded-full border lg:hidden"
               style={{
-                borderColor: 'var(--color-border)',
-                color: 'var(--color-heading)',
+                borderColor: "var(--color-border)",
+                color: "var(--color-heading)",
               }}
               onClick={() => setOpen((value) => !value)}
             >
               <Icon
-                name={open ? 'minus' : 'plus'}
+                name={open ? "minus" : "plus"}
                 size={16}
               />
             </button>
           </div>
         </nav>
 
-        {/* Mobile Navigation */}
+        {/* ================= MOBILE NAVIGATION ================= */}
         {open && (
           <div
             className="mx-auto mb-3 flex flex-col gap-1 rounded-2xl border p-3 lg:hidden"
             style={{
-              background: 'var(--color-white)',
-              borderColor: 'var(--color-border)',
+              background: "var(--color-white)",
+              borderColor: "var(--color-border)",
             }}
           >
+
+            {/* Mobile Links */}
             {NAV_LINKS.map((link) => (
               <button
                 key={link.label}
                 type="button"
                 onClick={() => handleNav(link.href)}
-                className="rounded-xl px-3 py-2 text-left text-sm font-medium"
+                className="rounded-xl px-3 py-2 text-left text-sm font-medium transition hover:bg-primary-50"
                 style={{
-                  color: 'var(--color-text)',
+                  color: "var(--color-text)",
                 }}
               >
                 {link.label}
               </button>
             ))}
 
-            {/* Mobile Diet Toggle */}
+            {/* Become a Cook */}
+            <button
+              type="button"
+              onClick={() => handleNav("#become-cook")}
+              className="rounded-xl px-3 py-2 text-left text-sm font-medium transition hover:bg-primary-50"
+              style={{
+                color: "var(--color-text)",
+              }}
+            >
+              Become a Cook
+            </button>
+
+            {/* ================= MOBILE DIET TOGGLE ================= */}
             <div className="diet-toggle mt-1 self-start">
               <button
                 type="button"
-                className={mode === 'veg' ? 'active veg' : ''}
-                onClick={() => onModeChange('veg')}
+                className={mode === "veg" ? "active veg" : ""}
+                onClick={() => onModeChange("veg")}
               >
                 🌿 Veg
               </button>
 
               <button
                 type="button"
-                className={mode === 'nonveg' ? 'active nonveg' : ''}
-                onClick={() => onModeChange('nonveg')}
+                className={mode === "nonveg" ? "active nonveg" : ""}
+                onClick={() => onModeChange("nonveg")}
               >
                 🍗 Non-Veg
               </button>
             </div>
 
-            {/* Mobile Order */}
+            {/* ================= MOBILE ORDER ================= */}
             <button
               type="button"
-              onClick={() => handleNav('#plans')}
+              onClick={() => handleNav("#plans")}
               className="btn btn-primary mt-2 justify-center"
             >
               Order Now
@@ -182,5 +215,5 @@ export function Header({ mode, onModeChange }) {
         )}
       </div>
     </header>
-  )
+  );
 }

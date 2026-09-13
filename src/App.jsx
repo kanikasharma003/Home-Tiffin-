@@ -19,7 +19,10 @@ function PublicLayout() {
   const [mode, setMode] = useState("veg");
 
   return (
-    <div className="min-h-screen bg-page-bg text-heading">
+    <div
+      data-mode={mode}
+      className="min-h-screen bg-page-bg text-heading"
+    >
       <Header
         mode={mode}
         onModeChange={setMode}
@@ -50,13 +53,11 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        {/* Public Website */}
         <Route
           path="/"
           element={<PublicLayout />}
         />
 
-        {/* Admin */}
         <Route
           path="/admin/login"
           element={<AdminLogin />}
@@ -72,7 +73,6 @@ function App() {
           element={<AdminRoute />}
         />
 
-        {/* Fallback */}
         <Route
           path="*"
           element={<Navigate to="/" replace />}
