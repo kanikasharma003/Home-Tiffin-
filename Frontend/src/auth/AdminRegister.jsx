@@ -264,6 +264,7 @@ export default function AdminRegister() {
           </p>
         </div>
       </div>
+      
     </div>
   );
 }

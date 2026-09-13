@@ -23,8 +23,7 @@ export default function AdminLogin() {
       return;
     }
 
-    setLoading(true);
-    // TODO: replace with real API call
+    setLoading(true); 
     setTimeout(() => {
       setLoading(false);
       navigate('/admin');

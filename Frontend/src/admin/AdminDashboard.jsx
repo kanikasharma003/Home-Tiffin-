@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import AdminLayout from './AdminLayout';
 
-// ─── Mock Data ──────────────────────────────────────────────────────────────
+// Mock Data 
 
 const statsData = [
   { label: 'Total Orders', value: '1,248', change: '+12%', icon: Package, color: 'text-primary-500', bg: 'bg-primary-50' },
@@ -65,7 +65,7 @@ const inquiriesData = [
   { id: 4, name: 'Mohan Rao', email: 'mohan@example.com', subject: 'Custom diet plan', message: 'Need low-oil, high-protein tiffin for fitness.', date: '2025-01-12', status: 'Closed' },
 ];
 
-// ─── Status Badge ───────────────────────────────────────────────────────────
+// Status Badge 
 
 const statusStyles = {
   Delivered: 'bg-veg-green-light text-veg-green-dark',
@@ -92,7 +92,7 @@ function StatusBadge({ status }) {
   );
 }
 
-// ─── Stats Grid ─────────────────────────────────────────────────────────────
+//  Stats Grid 
 
 function StatsGrid() {
   return (
@@ -128,7 +128,7 @@ function StatsGrid() {
   );
 }
 
-// ─── Admin Logins Table ─────────────────────────────────────────────────────
+//  Admin Logins Table 
 
 function AdminLoginsTable() {
   return (
@@ -152,8 +152,7 @@ function AdminLoginsTable() {
             </tr>
           </thead>
         </table>
-
-        {/* Scrollable body — shows ~6 rows, then scrolls */}
+ 
         <div className="max-h-[380px] overflow-y-auto">
           <table className="w-full min-w-[480px] text-left text-sm">
             <tbody>
@@ -187,7 +186,7 @@ function AdminLoginsTable() {
   );
 }
 
-// ─── Orders Table ───────────────────────────────────────────────────────────
+//  Orders Table 
 
 function OrdersTable() {
   return (
@@ -251,7 +250,7 @@ function OrdersTable() {
   );
 }
 
-// ─── Users Table ────────────────────────────────────────────────────────────
+//  Users Table 
 
 function UsersTable() {
   return (
@@ -321,7 +320,7 @@ function UsersTable() {
   );
 }
 
-// ─── Cooks Grid ─────────────────────────────────────────────────────────────
+//  Cooks Grid 
 
 function CooksGrid() {
   return (
@@ -367,7 +366,7 @@ function CooksGrid() {
   );
 }
 
-// ─── Inquiries Table ────────────────────────────────────────────────────────
+// Inquiries Table  
 
 function InquiriesTable() {
   return (
@@ -430,7 +429,7 @@ function InquiriesTable() {
   );
 }
 
-// ─── Dashboard Overview ─────────────────────────────────────────────────────
+//  Dashboard Overview 
 
 function DashboardOverview() {
   const quickActions = [
@@ -447,7 +446,7 @@ function DashboardOverview() {
       {/* Recent Admin Logins */}
       <AdminLoginsTable />
 
-      {/* Recent Orders + Quick Actions */}
+      {/* Recent Orders and Quick Actions */}
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <div className="xl:col-span-2">
           <OrdersTable />
@@ -494,7 +493,7 @@ function DashboardOverview() {
   );
 }
 
-// ─── Main Dashboard ─────────────────────────────────────────────────────────
+//  Main Dashboard  
 
 export default function AdminDashboard({ onExit }) {
   const navigate = useNavigate();
@@ -542,8 +541,7 @@ export default function AdminDashboard({ onExit }) {
         onExit={onExit}
         onLogout={handleLogout}
       />
-
-      {/* Offset content by sidebar width on desktop */}
+ 
       <div className="flex min-h-screen flex-col lg:ml-64">
         {/* Topbar */}
         <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-border bg-white/80 px-4 backdrop-blur-md sm:px-6">
