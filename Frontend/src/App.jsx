@@ -5,7 +5,11 @@ import AdminDashboard from './admin/AdminDashboard';
 import AdminLogin from './auth/AdminLogin';
 import AdminRegister from './auth/AdminRegister';
 
-// ─── Public Layout ──────────────────────────────────────────────────────────
+// pages
+import BecomeCook from './pages/BecomeCook';
+
+
+//  Public Layout 
 function PublicLayout({ children }) {
   return (
     <>
@@ -16,7 +20,7 @@ function PublicLayout({ children }) {
   );
 }
 
-// ─── Admin Route Wrapper (provides onExit) ──────────────────────────────────
+// Admin Route Wrapper 
 function AdminRoute() {
   const navigate = useNavigate();
   return <AdminDashboard onExit={() => navigate('/')} />;
@@ -32,6 +36,14 @@ function App() {
           element={
             <PublicLayout>
               <main className="min-h-[60vh]" />
+            </PublicLayout>
+          }
+        />
+        <Route
+          path="/become-cook"
+          element={
+            <PublicLayout>
+              <BecomeCook />
             </PublicLayout>
           }
         />
