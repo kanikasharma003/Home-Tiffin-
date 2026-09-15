@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, Outlet } from 'react-router-dom';
 import {
-  Search,
-  Menu,
-  ChevronDown,
   MoreVertical,
   TrendingUp,
   Package,
@@ -15,7 +12,7 @@ import {
 } from 'lucide-react';
 import AdminLayout from './AdminLayout';
 
-// Mock Data 
+//  Mock Data 
 
 const statsData = [
   { label: 'Total Orders', value: '1,248', change: '+12%', icon: Package, color: 'text-primary-500', bg: 'bg-primary-50' },
@@ -80,7 +77,7 @@ const statusStyles = {
   Closed: 'bg-primary-50 text-primary-400',
 };
 
-function StatusBadge({ status }) {
+export function StatusBadge({ status }) {
   return (
     <span
       className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${
@@ -128,7 +125,7 @@ function StatsGrid() {
   );
 }
 
-//  Admin Logins Table 
+// ─── Admin Logins Table ─────────────────────────────────────────────────
 
 function AdminLoginsTable() {
   return (
@@ -152,7 +149,7 @@ function AdminLoginsTable() {
             </tr>
           </thead>
         </table>
- 
+
         <div className="max-h-[380px] overflow-y-auto">
           <table className="w-full min-w-[480px] text-left text-sm">
             <tbody>
@@ -188,7 +185,7 @@ function AdminLoginsTable() {
 
 //  Orders Table 
 
-function OrdersTable() {
+export function OrdersTable() {
   return (
     <div className="card overflow-hidden">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4">
@@ -252,7 +249,7 @@ function OrdersTable() {
 
 //  Users Table 
 
-function UsersTable() {
+export function UsersTable() {
   return (
     <div className="card overflow-hidden">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4">
@@ -322,7 +319,7 @@ function UsersTable() {
 
 //  Cooks Grid 
 
-function CooksGrid() {
+export function CooksGrid() {
   return (
     <div className="card overflow-hidden">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4">
@@ -366,9 +363,9 @@ function CooksGrid() {
   );
 }
 
-// Inquiries Table  
+//  Inquiries Table  
 
-function InquiriesTable() {
+export function InquiriesTable() {
   return (
     <div className="card overflow-hidden">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-5 py-4">
@@ -429,24 +426,24 @@ function InquiriesTable() {
   );
 }
 
-//  Dashboard Overview 
+//  Dashboard Overview  
 
-function DashboardOverview() {
+export function DashboardOverview() {
+  const navigate = useNavigate();
+
   const quickActions = [
-    { label: 'Add New Cook', icon: ChefHat, color: 'text-primary-500', bg: 'bg-primary-50' },
-    { label: 'View Pending Orders', icon: Clock, color: 'text-rating-yellow', bg: 'bg-primary-50' },
-    { label: 'Reply to Inquiries', icon: MessageSquare, color: 'text-jain', bg: 'bg-jain-light' },
-    { label: 'Manage Users', icon: Users, color: 'text-veg-green', bg: 'bg-veg-green-light' },
+    { label: 'Add New Cook', icon: ChefHat, color: 'text-primary-500', bg: 'bg-primary-50', path: '/admin/cooks' },
+    { label: 'View Pending Orders', icon: Clock, color: 'text-rating-yellow', bg: 'bg-primary-50', path: '/admin/orders' },
+    { label: 'Reply to Inquiries', icon: MessageSquare, color: 'text-jain', bg: 'bg-jain-light', path: '/admin/inquiries' },
+    { label: 'Manage Users', icon: Users, color: 'text-veg-green', bg: 'bg-veg-green-light', path: '/admin/users' },
   ];
 
   return (
     <div className="space-y-6">
       <StatsGrid />
 
-      {/* Recent Admin Logins */}
       <AdminLoginsTable />
 
-      {/* Recent Orders and Quick Actions */}
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
         <div className="xl:col-span-2">
           <OrdersTable />
@@ -462,6 +459,7 @@ function DashboardOverview() {
               return (
                 <button
                   key={action.label}
+                  onClick={() => navigate(action.path)}
                   className="flex w-full items-center gap-3 rounded-xl border border-border p-3 text-left transition hover:border-primary-200 hover:bg-primary-50/50"
                 >
                   <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${action.bg} ${action.color}`}>
@@ -493,108 +491,12 @@ function DashboardOverview() {
   );
 }
 
-//  Main Dashboard  
+//   Admin Dashboard  
 
-export default function AdminDashboard({ onExit }) {
-  const navigate = useNavigate();
-  const [active, setActive] = useState('dashboard');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const pageTitles = {
-    dashboard: { title: 'Dashboard', subtitle: 'Welcome back, Admin' },
-    orders: { title: 'Order Management', subtitle: 'Track and manage all orders' },
-    users: { title: 'User Management', subtitle: 'Manage your customers' },
-    cooks: { title: 'Manage Cooks', subtitle: 'Your kitchen team' },
-    inquiries: { title: 'Inquiries', subtitle: 'Customer messages and queries' },
-  };
-
-  const current = pageTitles[active] || pageTitles.dashboard;
-
-  const handleLogout = () => {
-    localStorage.removeItem('adminToken');
-    sessionStorage.clear();
-    navigate('/admin/login', { replace: true });
-  };
-
-  const renderContent = () => {
-    switch (active) {
-      case 'orders':
-        return <OrdersTable />;
-      case 'users':
-        return <UsersTable />;
-      case 'cooks':
-        return <CooksGrid />;
-      case 'inquiries':
-        return <InquiriesTable />;
-      default:
-        return <DashboardOverview />;
-    }
-  };
-
+export default function AdminDashboard() {
   return (
-    <div className="min-h-screen bg-page-bg">
-      <AdminLayout
-        active={active}
-        setActive={setActive}
-        open={sidebarOpen}
-        setOpen={setSidebarOpen}
-        onExit={onExit}
-        onLogout={handleLogout}
-      />
- 
-      <div className="flex min-h-screen flex-col lg:ml-64">
-        {/* Topbar */}
-        <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-border bg-white/80 px-4 backdrop-blur-md sm:px-6">
-          <button
-            className="text-muted hover:text-heading lg:hidden"
-            onClick={() => setSidebarOpen(true)}
-          >
-            <Menu size={22} />
-          </button>
-
-          <div className="hidden sm:block">
-            <h1 className="font-display text-lg font-bold text-heading">
-              {current.title}
-            </h1>
-            <p className="text-xs text-muted">{current.subtitle}</p>
-          </div>
-
-          <div className="relative ml-auto hidden max-w-xs flex-1 md:block">
-            <Search
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted"
-              size={16}
-            />
-            <input
-              className="theme-input pl-10"
-              placeholder="Search orders, users..."
-            />
-          </div>
-
-          <div className="ml-auto flex items-center gap-2 md:ml-0">
-            <div className="hidden items-center gap-2 rounded-full border border-border py-1 pl-1 pr-3 sm:flex">
-              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary-500 text-[10px] font-bold text-white">
-                AD
-              </div>
-              <span className="text-sm font-medium text-heading">Admin</span>
-              <ChevronDown size={14} className="text-muted" />
-            </div>
-          </div>
-        </header>
-
-        {/* Main Content */}
-        <main className="flex-1 p-4 sm:p-6">
-          <div className="mx-auto max-w-7xl space-y-6">
-            <div className="sm:hidden">
-              <h1 className="font-display text-xl font-bold text-heading">
-                {current.title}
-              </h1>
-              <p className="text-xs text-muted">{current.subtitle}</p>
-            </div>
-
-            {renderContent()}
-          </div>
-        </main>
-      </div>
-    </div>
+    <AdminLayout> 
+      <Outlet />
+    </AdminLayout>
   );
 }

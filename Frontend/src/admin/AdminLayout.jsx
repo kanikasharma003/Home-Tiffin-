@@ -1,132 +1,147 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard,
-  Users,
-  ChefHat,
-  MessageSquare,
-  ShoppingBag,
-  X,
-  ArrowLeft,
-  LogOut,
+  LayoutDashboard, Users, ClipboardList, ChefHat,
+  MessageSquare, CreditCard, BarChart3,
+  Search, ArrowLeft, LogOut, Menu, X,
 } from 'lucide-react';
 
-const navItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'orders', label: 'Order Management', icon: ShoppingBag },
-  { id: 'users', label: 'User Management', icon: Users },
-  { id: 'cooks', label: 'Manage Cooks', icon: ChefHat },
-  { id: 'inquiries', label: 'Inquiries', icon: MessageSquare },
-];
+const AdminLayout = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-export default function AdminLayout({
-  active,
-  setActive,
-  open,
-  setOpen,
-  onExit,
-  onLogout,
-}) {
+  const modules = [
+    { name: 'User Management', icon: Users,          path: '/admin/users' },
+    { name: 'Order Management', icon: ClipboardList, path: '/admin/orders' },
+    { name: 'Manage Cooks',     icon: ChefHat,       path: '/admin/cooks' },
+    { name: 'Inquiries',        icon: MessageSquare, path: '/admin/inquiries' },
+    { name: 'Payments',         icon: CreditCard,    path: '/admin/payments' },
+    { name: 'Analytics',        icon: BarChart3,     path: '/admin/analytics' },
+  ];
+
+  const handleBackToWebsite = () => navigate('/');
+
+  const handleLogout = () => {
+    localStorage.removeItem('adminToken');   // match AdminDashboard.js key
+    sessionStorage.clear();
+    navigate('/admin/login', { replace: true });
+  };
+
+  const isActive = (path) => location.pathname === path;
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const handleNavigation = (path) => {
+    navigate(path);
+    setIsMobileMenuOpen(false);
+  };
+
   return (
-    <>
-      {/* Mobile overlay */}
-      {open && (
+    <div className="min-h-screen bg-gray-50 flex">
+      {/* Mobile toggle */}
+      <button
+        onClick={toggleMobileMenu}
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-md"
+      >
+        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      {isMobileMenuOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-          onClick={() => setOpen(false)}
+          className="lg:hidden fixed inset-0 bg-black/50 z-40"
+          onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
 
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 flex h-screen w-64 flex-col border-r border-border bg-white transition-transform duration-300 lg:translate-x-0 ${
-          open ? 'translate-x-0' : '-translate-x-full'
+      {/* Sidebar */}
+      <div
+        className={`w-64 bg-white shadow-lg fixed h-full overflow-y-auto transition-transform duration-300 z-50 ${
+          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-        {/* Logo */}
-        <div className="flex h-16 shrink-0 items-center gap-3 border-b border-border px-5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-500 text-white shadow-lg shadow-primary-500/30">
-            <ChefHat size={18} />
+        <div className="p-6">
+          <span className="text-sm text-gray-500 mt-2 p-14">Admin Panel</span>
+        </div>
+
+        {/* Search */}
+        <div className="px-4 mb-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <input
+              type="text"
+              placeholder="Search menu..."
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
-          <div>
-            <p className="font-display text-base font-bold leading-tight text-heading">
-              TiffinBox
-            </p>
-            <p className="text-[10px] font-medium uppercase tracking-widest text-muted">
-              Admin Panel
-            </p>
-          </div>
-          <button
-            className="ml-auto text-muted hover:text-heading lg:hidden"
-            onClick={() => setOpen(false)}
-          >
-            <X size={18} />
-          </button>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = active === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setActive(item.id);
-                  setOpen(false);
-                }}
-                className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/25'
-                    : 'text-text hover:bg-primary-50 hover:text-primary-600'
-                }`}
-              >
-                <Icon size={18} />
-                <span>{item.label}</span>
-              </button>
-            );
-          })}
-        </nav>
+        <nav className="px-4 space-y-1">
+          <button
+            onClick={() => handleNavigation('/admin')}
+            className={`w-full text-left px-4 py-2.5 rounded-lg transition-all flex items-center gap-3 ${
+              location.pathname === '/admin'
+                ? 'bg-blue-50 text-blue-600 font-semibold'
+                : 'text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            <LayoutDashboard size={20} />
+            <span className="text-sm">Dashboard</span>
+          </button>
 
-        {/* Footer */}
-        <div className="shrink-0 space-y-3 border-t border-border p-4">
-          {/* Back to website */}
-          {onExit && (
-            <button
-              onClick={onExit}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-border py-2 text-xs font-medium text-muted transition hover:border-primary-200 hover:text-primary-500"
-            >
-              <ArrowLeft size={14} />
-              Back to Website
-            </button>
-          )}
-
-          {/* Logout */}
-          {onLogout && (
-            <button
-              onClick={onLogout}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-primary-200 bg-primary-50 py-2 text-xs font-semibold text-primary-600 transition hover:bg-primary-100 hover:text-primary-700"
-            >
-              <LogOut size={14} />
-              Logout
-            </button>
-          )}
-
-          {/* Admin profile */}
-          <div className="flex items-center gap-3 rounded-xl bg-cream p-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-500 text-xs font-bold text-white">
-              AD
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-semibold text-heading">
-                Admin User
-              </p>
-              <p className="truncate text-xs text-muted">
-                admin@tiffinbox.com
-              </p>
-            </div>
+          <div className="mt-4">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 mb-2">
+              Management
+            </p>
+            {modules.map((module) => {
+              const IconComponent = module.icon;
+              return (
+                <button
+                  key={module.name}
+                  onClick={() => handleNavigation(module.path)}
+                  className={`w-full text-left px-4 py-2.5 rounded-lg transition-all flex items-center gap-3 ${
+                    isActive(module.path)
+                      ? 'bg-blue-50 text-blue-600 font-semibold'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <IconComponent size={20} />
+                  <span className="text-sm">{module.name}</span>
+                </button>
+              );
+            })}
           </div>
+
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <button
+              onClick={handleBackToWebsite}
+              className="w-full text-left px-4 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 transition-all flex items-center gap-3"
+            >
+              <ArrowLeft size={20} />
+              <span className="text-sm">Back to Website</span>
+            </button>
+            <button
+              onClick={handleLogout}
+              className="w-full text-left px-4 py-2.5 rounded-lg text-red-600 hover:bg-red-50 transition-all flex items-center gap-3 mt-1"
+            >
+              <LogOut size={20} />
+              <span className="text-sm">Logout</span>
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      {/* Main Content — Outlet renders child routes */}
+      <div className="ml-0 lg:ml-64 flex-1 p-4 md:p-8">
+        <Outlet />
+        <div className="mt-8 text-center text-xs text-gray-400">
+          © 2026 TiffinBox Admin Panel. All rights reserved.
         </div>
-      </aside>
-    </>
+      </div>
+    </div>
   );
-}
+};
+
+export default AdminLayout;
