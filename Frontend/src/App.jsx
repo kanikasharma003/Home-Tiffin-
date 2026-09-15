@@ -15,6 +15,9 @@ import AdminDashboard from "./admin/AdminDashboard";
 import AdminLogin from "./auth/AdminLogin";
 import AdminRegister from "./auth/AdminRegister";
 
+// Cook Dashboard
+import CookDashboard from "./cook/CookDashboard";
+
 // Pages
 import Home from "./pages/Home";
 import BecomeCook from "./pages/BecomeCook";
@@ -51,6 +54,20 @@ function AdminRoute() {
 
   return (
     <AdminDashboard
+      onExit={() => navigate("/")}
+    />
+  );
+}
+
+
+// ========================================
+// COOK ROUTE
+// ========================================
+function CookRoute() {
+  const navigate = useNavigate();
+
+  return (
+    <CookDashboard
       onExit={() => navigate("/")}
     />
   );
@@ -122,6 +139,15 @@ function App() {
               />
             </PublicLayout>
           }
+        />
+
+
+        {/* ==================================
+            COOK DASHBOARD
+        ================================== */}
+        <Route
+          path="/cook/dashboard"
+          element={<CookRoute />}
         />
 
 
