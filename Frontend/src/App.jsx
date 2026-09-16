@@ -7,35 +7,33 @@ import {
 } from "react-router-dom";
 import UserLogin from "./auth/UserLogin";
 import UserSignup from "./auth/UserSignUp";
-
+import { AuthProvider } from "./utils/UserAuth";
 import Navbar from "./components/Navbar";
 import { Footer } from "./components/Footer";
-
+import Kitchenlist from "./pages/Kitchenlist";
 // Admin
 import AdminDashboard, {
-<<<<<<< HEAD
+
   // OrdersTable,
   // UsersTable,
   // InquiriesTable,
-=======
-  OrdersTable,
-  UsersTable,
-  InquiriesTable,
->>>>>>> 13ba55d2f0f009564df18b31e334c26ef4c30dcb
+
+
+
 } from "./admin/AdminDashboard";
 import AdminLayout from "./admin/AdminLayout";
 import CookManagement from "./admin/CookManagement";
-import AdminLogin from "./auth/AdminLogin";
-import AdminRegister from "./auth/AdminRegister";
+// import AdminLogin from "./auth/AdminLogin";
+// import AdminRegister from "./auth/AdminRegister";
 
 // Cook
-<<<<<<< HEAD
+
 // import CookDashboard from "./cook/CookDashboard";
 // import CookProfile from "./cook/CookProfile";
-=======
+
 import CookDashboard from "./cook/CookDashboard";
 import CookProfile from "./cook/CookProfile";
->>>>>>> 13ba55d2f0f009564df18b31e334c26ef4c30dcb
+
 
 // Pages
 import Home from "./pages/Home";
@@ -63,7 +61,7 @@ function RequireAdmin({ children }) {
 }
 
 //  Cook Guard  
-<<<<<<< HEAD
+
 // function RequireCook({ children }) {
 //   const token = localStorage.getItem("cookToken");
 //   if (!token) {
@@ -71,7 +69,7 @@ function RequireAdmin({ children }) {
 //   }
 //   return children;
 // }
-=======
+
 function RequireCook({ children }) {
   const token = localStorage.getItem("cookToken");
   if (!token) {
@@ -79,7 +77,7 @@ function RequireCook({ children }) {
   }
   return children;
 }
->>>>>>> 13ba55d2f0f009564df18b31e334c26ef4c30dcb
+
 
 //  App 
 function App() {
@@ -87,44 +85,87 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        {/* PUBLIC */}
-        <Route path="/" element={<PublicLayout mode={mode} onModeChange={setMode}><Home mode={mode} onModeChange={setMode} /></PublicLayout>} />
-        <Route path="/contact" element={<PublicLayout mode={mode} onModeChange={setMode}><Contact mode={mode} onModeChange={setMode} /></PublicLayout>} />
-        <Route path="/become-cook" element={<PublicLayout mode={mode} onModeChange={setMode}><BecomeCook mode={mode} onModeChange={setMode} /></PublicLayout>} />
+      <AuthProvider>
+        <Routes>
 
-        {/* AUTH */}
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/register" element={<AdminRegister />} />
+          {/* PUBLIC */}
+          <Route
+            path="/"
+            element={
+              <PublicLayout mode={mode} onModeChange={setMode}>
+                <Home mode={mode} onModeChange={setMode} />
+              </PublicLayout>
+            }
+          />
 
-        {/* ADMIN */}
-        <Route path="/admindashboard" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
-        <Route path="/admin/cooks" element={<RequireAdmin><AdminLayout><CookManagement /></AdminLayout></RequireAdmin>} />
-        {/* <Route path="/admin/users" element={<RequireAdmin><AdminLayout><UsersTable /></AdminLayout></RequireAdmin>} /> */}
-        {/* <Route path="/admin/orders" element={<RequireAdmin><AdminLayout><OrdersTable /></AdminLayout></RequireAdmin>} /> */}
-        {/* <Route path="/admin/inquiries" element={<RequireAdmin><AdminLayout><InquiriesTable /></AdminLayout></RequireAdmin>} /> */}
+          <Route
+            path="/contact"
+            element={
+              <PublicLayout mode={mode} onModeChange={setMode}>
+                <Contact mode={mode} onModeChange={setMode} />
+              </PublicLayout>
+            }
+          />
 
-        {/* COOK ROUTES */}
-<<<<<<< HEAD
-        {/* <Route path="/cookdashboard" element={<RequireCook><CookDashboard /></RequireCook>} />
-        <Route path="/cookprofile" element={<RequireCook><CookProfile /></RequireCook>} /> */}
-=======
-        <Route path="/cookdashboard" element={<RequireCook><CookDashboard /></RequireCook>} />
-        <Route path="/cookprofile" element={<RequireCook><CookProfile /></RequireCook>} />
->>>>>>> 13ba55d2f0f009564df18b31e334c26ef4c30dcb
-        {/* <Route path="/cook/orders" element={<CookOrders />} /> */}
-        {/* <Route path="/cook/menu" element={<CookMenu />} /> */}
-        {/* <Route path="/cook/earnings" element={<CookEarnings />} /> */}
-        {/* <Route path="/cook/settings" element={<CookSettings />} /> */}
-<<<<<<< HEAD
-{/* UserAuth  */}
-<Route path="/UserLogin" element={<UserLogin/>}/>
-<Route path="/UserSignUp" element={<UserSignup/>}/>
-=======
+          <Route
+            path="/become-cook"
+            element={
+              <PublicLayout mode={mode} onModeChange={setMode}>
+                <BecomeCook mode={mode} onModeChange={setMode} />
+              </PublicLayout>
+            }
+          />
 
->>>>>>> 13ba55d2f0f009564df18b31e334c26ef4c30dcb
-        
-      </Routes>
+          {/* ADMIN */}
+          <Route
+            path="/admindashboard"
+            element={
+              <RequireAdmin>
+                <AdminDashboard />
+              </RequireAdmin>
+            }
+          />
+
+          <Route
+            path="/admin/cooks"
+            element={
+              <RequireAdmin>
+                <AdminLayout>
+                  <CookManagement />
+                </AdminLayout>
+              </RequireAdmin>
+            }
+          />
+
+          {/* COOK */}
+          <Route
+            path="/cookdashboard"
+            element={
+              <RequireCook>
+                <CookDashboard />
+              </RequireCook>
+            }
+          />
+
+          <Route
+            path="/cookprofile"
+            element={
+              <RequireCook>
+                <CookProfile />
+              </RequireCook>
+            }
+          />
+
+          {/* USER AUTH */}
+          <Route path="/User/Login" element={<UserLogin />} />
+          <Route path="/User/SignUp" element={<UserSignup />} />
+          {/* Kitchenlist */}
+          <Route
+            path="/kitchens"
+            element={<Kitchenlist />}
+          />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

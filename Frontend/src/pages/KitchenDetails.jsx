@@ -70,14 +70,13 @@ export default function KitchenDetail({
               />
             ))}
           </div>
-        )}
-      </div>
 
-      {/* Info card */}
-      <div className="bg-white rounded-2xl -mt-6 relative z-10 mx-3 sm:mx-0 p-5 shadow-sm border border-[#f0ded3]">
+        )}
+
+        <div className="bg-white rounded-2xl -mt-6 relative z-10  sm:mx-0 p-5 shadow-sm border border-[#f0ded3]">
         <div className="flex items-start gap-3">
           <div className="h-14 w-14 rounded-full bg-[#9d1c34] flex items-center justify-center text-white text-2xl flex-shrink-0">
-            <ChefHat size={12} color='white'/>
+            <ChefHat size={23} color='white'/>
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">
@@ -125,6 +124,10 @@ export default function KitchenDetail({
           </div>
         )}
       </div>
+      </div>
+
+      {/* Info card */}
+      
 
       {/* Menu */}
       <div className="mt-6 px-3 sm:px-0">

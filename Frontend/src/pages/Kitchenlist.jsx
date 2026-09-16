@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { SlidersHorizontal, X } from 'lucide-react'
 import KitchenCard from './KitchenCard'
 import FilterPanel from './FilterPanel'
-import KitchenDetail from './KitchenDetail'
+import KitchenDetail from './KitchenDetails'
 import Cart from './Cart'
 import img1 from "../assets/sharmakt.jpg"
 import img2 from "../assets/guptakt.jpg"
@@ -152,15 +152,15 @@ export default function KitchenListPage() {
       const existing = c[dish.id]
       if (!existing) return c
       if (existing.qty <= 1) {
-        const { [dish.id]: _removed, ...rest } = c
-        return rest
+        const { [dish.id]: rest } = c
+        return rest;
       }
       return { ...c, [dish.id]: { ...existing, qty: existing.qty - 1 } }
     })
   }
   const removeDish = (dish) => {
     setCart((c) => {
-      const { [dish.id]: _removed, ...rest } = c
+      const { [dish.id]:  rest } = c
       return rest
     })
   }
