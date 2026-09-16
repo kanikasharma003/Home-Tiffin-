@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Search,
   CheckCircle2,
@@ -10,120 +10,109 @@ import {
   Mail,
   MapPin,
   Utensils,
-  Filter,
-  MoreVertical,
-  ChevronDown,
-} from 'lucide-react';
+  Store,
+} from "lucide-react";
+import {
+  getApplications,
+  updateApplicationStatus,
+} from "../utils/cookApplications";
 
 const CookManagement = () => {
-  // mock data 
-  const [cooks, setCooks] = useState([
-    {
-      id: 1,
-      name: 'Priya Sharma',
-      phone: '+91 98765 43210',
-      email: 'priya@example.com',
-      city: 'Pune',
-      specialties: 'North Indian, Tiffin, Healthy Meals',
-      experience: '5 years of home cooking',
-      appliedOn: '2025-01-12',
-      status: 'pending',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80',
-    },
-    {
-      id: 2,
-      name: 'Meena Krishnan',
-      phone: '+91 87654 32109',
-      email: 'meena@example.com',
-      city: 'Bangalore',
-      specialties: 'South Indian, Jain, Sattvic',
-      experience: '8 years of cooking for family',
-      appliedOn: '2025-01-11',
-      status: 'pending',
-      avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80',
-    },
-    {
-      id: 3,
-      name: 'Anjali Tiwari',
-      phone: '+91 76543 21098',
-      email: 'anjali@example.com',
-      city: 'Delhi',
-      specialties: 'Punjabi, Diet Meals, Kids Meals',
-      experience: '3 years',
-      appliedOn: '2025-01-10',
-      status: 'approved',
-      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
-    },
-    {
-      id: 4,
-      name: 'Sneha Reddy',
-      phone: '+91 65432 10987',
-      email: 'sneha@example.com',
-      city: 'Hyderabad',
-      specialties: 'Andhra, Telangana, Spicy',
-      experience: '2 years',
-      appliedOn: '2025-01-09',
-      status: 'rejected',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
-    },
-  ]);
+  const [cooks, setCooks] = useState([]);
+  const [filter, setFilter] = useState("all"); // all | pending | approved | rejected
+  const [search, setSearch] = useState("");
+  const [selectedCook, setSelectedCook] = useState(null);
 
-  const [filter, setFilter] = useState('all'); // all | pending | approved | rejected
-  const [search, setSearch] = useState('');
-  const [selectedCook, setSelectedCook] = useState(null); // for modal
+  // Load applications whenever the page mounts
+  useEffect(() => {
+    setCooks(getApplications());
+  }, []);
 
-  //  Stats 
+  //  Stats
   const stats = {
     total: cooks.length,
-    pending: cooks.filter((c) => c.status === 'pending').length,
-    approved: cooks.filter((c) => c.status === 'approved').length,
-    rejected: cooks.filter((c) => c.status === 'rejected').length,
+    pending: cooks.filter((c) => c.status === "pending").length,
+    approved: cooks.filter((c) => c.status === "approved").length,
+    rejected: cooks.filter((c) => c.status === "rejected").length,
   };
 
-  //  Filter + Search Logic 
+  //  Filter + Search
   const filteredCooks = cooks.filter((c) => {
-    const matchesFilter = filter === 'all' || c.status === filter;
+    const matchesFilter = filter === "all" || c.status === filter;
+    const q = search.toLowerCase();
     const matchesSearch =
-      c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.email.toLowerCase().includes(search.toLowerCase()) ||
-      c.city.toLowerCase().includes(search.toLowerCase());
+      (c.name || "").toLowerCase().includes(q) ||
+      (c.email || "").toLowerCase().includes(q) ||
+      (c.city || "").toLowerCase().includes(q) ||
+      (c.kitchenName || "").toLowerCase().includes(q);
     return matchesFilter && matchesSearch;
   });
 
-  // Actions 
+  //  Actions
   const updateStatus = (id, status) => {
-    setCooks((prev) => prev.map((c) => (c.id === id ? { ...c, status } : c)));
+    const next = updateApplicationStatus(id, status);
+    setCooks(next);
     setSelectedCook(null);
   };
 
   const statusBadge = (status) => {
     const map = {
-      pending: 'bg-yellow-100 text-yellow-700 border-yellow-200',
-      approved: 'bg-green-100 text-green-700 border-green-200',
-      rejected: 'bg-red-100 text-red-700 border-red-200',
+      pending: "bg-yellow-100 text-yellow-700 border-yellow-200",
+      approved: "bg-green-100 text-green-700 border-green-200",
+      rejected: "bg-red-100 text-red-700 border-red-200",
     };
-    return map[status] || 'bg-gray-100 text-gray-600';
+    return map[status] || "bg-gray-100 text-gray-600";
   };
+
+  const initials = (name) =>
+    (name || "?")
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
 
   return (
     <div className="min-h-screen bg-[#FFF9F5] font-sans text-gray-800 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
-
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Cook Management</h1>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Cook Management
+          </h1>
           <p className="text-gray-500 mt-1">
-            Review and verify applications from home cooks who want to join TiffinBox.
+            Review and verify applications from home cooks who want to join
+            TiffinBox.
           </p>
         </div>
 
-        {/* Stats Bar  */}
+        {/* Stats Bar */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
-            { label: 'Total Applications', value: stats.total, color: 'text-gray-900', bg: 'bg-white' },
-            { label: 'Pending Review', value: stats.pending, color: 'text-yellow-600', bg: 'bg-yellow-50' },
-            { label: 'Approved Cooks', value: stats.approved, color: 'text-green-600', bg: 'bg-green-50' },
-            { label: 'Rejected', value: stats.rejected, color: 'text-red-600', bg: 'bg-red-50' },
+            {
+              label: "Total Applications",
+              value: stats.total,
+              color: "text-gray-900",
+              bg: "bg-white",
+            },
+            {
+              label: "Pending Review",
+              value: stats.pending,
+              color: "text-yellow-600",
+              bg: "bg-yellow-50",
+            },
+            {
+              label: "Approved Cooks",
+              value: stats.approved,
+              color: "text-green-600",
+              bg: "bg-green-50",
+            },
+            {
+              label: "Rejected",
+              value: stats.rejected,
+              color: "text-red-600",
+              bg: "bg-red-50",
+            },
           ].map((s, i) => (
             <div
               key={i}
@@ -137,18 +126,17 @@ const CookManagement = () => {
           ))}
         </div>
 
-        {/* Filters + Search  */}
+        {/* Filters + Search */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-          {/* Filter tabs */}
           <div className="flex flex-wrap items-center gap-2">
-            {['all', 'pending', 'approved', 'rejected'].map((f) => (
+            {["all", "pending", "approved", "rejected"].map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
                 className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition-colors ${
                   filter === f
-                    ? 'bg-[#E53935] text-white shadow'
-                    : 'bg-white text-gray-600 border border-gray-200 hover:border-[#E53935] hover:text-[#E53935]'
+                    ? "bg-[#E53935] text-white shadow"
+                    : "bg-white text-gray-600 border border-gray-200 hover:border-[#E53935] hover:text-[#E53935]"
                 }`}
               >
                 {f}
@@ -156,7 +144,6 @@ const CookManagement = () => {
             ))}
           </div>
 
-          {/* Search */}
           <div className="relative w-full md:w-72">
             <Search
               size={16}
@@ -172,7 +159,7 @@ const CookManagement = () => {
           </div>
         </div>
 
-        {/*  Cooks Table   */}
+        {/* Cooks Table */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           {filteredCooks.length === 0 ? (
             <div className="p-16 text-center text-gray-400">
@@ -206,19 +193,33 @@ const CookManagement = () => {
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {filteredCooks.map((cook) => (
-                    <tr key={cook.id} className="hover:bg-[#FFF9F5] transition-colors">
+                    <tr
+                      key={cook.id}
+                      className="hover:bg-[#FFF9F5] transition-colors"
+                    >
                       {/* Cook */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <img
-                            src={cook.avatar}
-                            alt={cook.name}
-                            className="w-10 h-10 rounded-full object-cover"
-                          />
-                          <div>
+                          {cook.avatar ? (
+                            <img
+                              src={cook.avatar}
+                              alt={cook.name}
+                              className="w-10 h-10 rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 rounded-full bg-[#FFEBEB] text-[#E53935] flex items-center justify-center font-bold text-sm">
+                              {initials(cook.name)}
+                            </div>
+                          )}
+                          <div className="min-w-0">
                             <p className="font-semibold text-sm text-gray-900">
                               {cook.name}
                             </p>
+                            {cook.kitchenName && (
+                              <p className="text-xs text-[#E53935] font-medium flex items-center gap-1">
+                                <Store size={11} /> {cook.kitchenName}
+                              </p>
+                            )}
                             <p className="text-xs text-gray-500 truncate max-w-[180px]">
                               {cook.specialties}
                             </p>
@@ -256,9 +257,11 @@ const CookManagement = () => {
                             cook.status
                           )}`}
                         >
-                          {cook.status === 'pending' && <Clock size={12} />}
-                          {cook.status === 'approved' && <CheckCircle2 size={12} />}
-                          {cook.status === 'rejected' && <XCircle size={12} />}
+                          {cook.status === "pending" && <Clock size={12} />}
+                          {cook.status === "approved" && (
+                            <CheckCircle2 size={12} />
+                          )}
+                          {cook.status === "rejected" && <XCircle size={12} />}
                           {cook.status}
                         </span>
                       </td>
@@ -274,9 +277,9 @@ const CookManagement = () => {
                             <Eye size={16} />
                           </button>
 
-                          {cook.status !== 'approved' && (
+                          {cook.status !== "approved" && (
                             <button
-                              onClick={() => updateStatus(cook.id, 'approved')}
+                              onClick={() => updateStatus(cook.id, "approved")}
                               className="p-2 rounded-lg border border-green-200 text-green-600 hover:bg-green-50 transition-colors"
                               title="Approve"
                             >
@@ -284,9 +287,9 @@ const CookManagement = () => {
                             </button>
                           )}
 
-                          {cook.status !== 'rejected' && (
+                          {cook.status !== "rejected" && (
                             <button
-                              onClick={() => updateStatus(cook.id, 'rejected')}
+                              onClick={() => updateStatus(cook.id, "rejected")}
                               className="p-2 rounded-lg border border-red-200 text-red-600 hover:bg-red-50 transition-colors"
                               title="Reject"
                             >
@@ -303,23 +306,31 @@ const CookManagement = () => {
           )}
         </div>
 
-        {/* Detail Modal  */}
+        {/* Detail Modal */}
         {selectedCook && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
             <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
               {/* Header */}
               <div className="flex items-start justify-between p-6 border-b border-gray-100">
                 <div className="flex items-center gap-4">
-                  <img
-                    src={selectedCook.avatar}
-                    alt={selectedCook.name}
-                    className="w-14 h-14 rounded-full object-cover"
-                  />
+                  {selectedCook.avatar ? (
+                    <img
+                      src={selectedCook.avatar}
+                      alt={selectedCook.name}
+                      className="w-14 h-14 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-14 h-14 rounded-full bg-[#FFEBEB] text-[#E53935] flex items-center justify-center font-bold">
+                      {initials(selectedCook.name)}
+                    </div>
+                  )}
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">
                       {selectedCook.name}
                     </h3>
-                    <p className="text-sm text-gray-500">{selectedCook.city}</p>
+                    <p className="text-sm text-gray-500">
+                      {selectedCook.city}
+                    </p>
                   </div>
                 </div>
                 <button
@@ -332,9 +343,28 @@ const CookManagement = () => {
 
               {/* Body */}
               <div className="p-6 space-y-4">
-                <DetailRow icon={<Phone size={16} />} label="Phone" value={selectedCook.phone} />
-                <DetailRow icon={<Mail size={16} />} label="Email" value={selectedCook.email} />
-                <DetailRow icon={<MapPin size={16} />} label="City" value={selectedCook.city} />
+                {selectedCook.kitchenName && (
+                  <DetailRow
+                    icon={<Store size={16} />}
+                    label="Kitchen Name"
+                    value={selectedCook.kitchenName}
+                  />
+                )}
+                <DetailRow
+                  icon={<Phone size={16} />}
+                  label="Phone"
+                  value={selectedCook.phone}
+                />
+                <DetailRow
+                  icon={<Mail size={16} />}
+                  label="Email"
+                  value={selectedCook.email}
+                />
+                <DetailRow
+                  icon={<MapPin size={16} />}
+                  label="City"
+                  value={selectedCook.city}
+                />
                 <DetailRow
                   icon={<Utensils size={16} />}
                   label="Specialties"
@@ -343,7 +373,7 @@ const CookManagement = () => {
                 <DetailRow
                   icon={<User size={16} />}
                   label="Experience"
-                  value={selectedCook.experience}
+                  value={selectedCook.experience || selectedCook.about}
                 />
                 <DetailRow
                   icon={<Clock size={16} />}
@@ -363,17 +393,17 @@ const CookManagement = () => {
 
               {/* Footer Actions */}
               <div className="flex items-center gap-3 p-6 border-t border-gray-100">
-                {selectedCook.status !== 'approved' && (
+                {selectedCook.status !== "approved" && (
                   <button
-                    onClick={() => updateStatus(selectedCook.id, 'approved')}
+                    onClick={() => updateStatus(selectedCook.id, "approved")}
                     className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-colors"
                   >
                     <CheckCircle2 size={18} /> Approve
                   </button>
                 )}
-                {selectedCook.status !== 'rejected' && (
+                {selectedCook.status !== "rejected" && (
                   <button
-                    onClick={() => updateStatus(selectedCook.id, 'rejected')}
+                    onClick={() => updateStatus(selectedCook.id, "rejected")}
                     className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition-colors"
                   >
                     <XCircle size={18} /> Reject
@@ -383,12 +413,11 @@ const CookManagement = () => {
             </div>
           </div>
         )}
-
       </div>
     </div>
   );
 };
- 
+
 const DetailRow = ({ icon, label, value }) => (
   <div className="flex items-start gap-3">
     <div className="text-[#E53935] mt-0.5">{icon}</div>

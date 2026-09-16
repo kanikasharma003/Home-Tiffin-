@@ -13,9 +13,15 @@ import { Footer } from "./components/Footer";
 
 // Admin
 import AdminDashboard, {
+<<<<<<< HEAD
   // OrdersTable,
   // UsersTable,
   // InquiriesTable,
+=======
+  OrdersTable,
+  UsersTable,
+  InquiriesTable,
+>>>>>>> 13ba55d2f0f009564df18b31e334c26ef4c30dcb
 } from "./admin/AdminDashboard";
 import AdminLayout from "./admin/AdminLayout";
 import CookManagement from "./admin/CookManagement";
@@ -23,8 +29,13 @@ import AdminLogin from "./auth/AdminLogin";
 import AdminRegister from "./auth/AdminRegister";
 
 // Cook
+<<<<<<< HEAD
 // import CookDashboard from "./cook/CookDashboard";
 // import CookProfile from "./cook/CookProfile";
+=======
+import CookDashboard from "./cook/CookDashboard";
+import CookProfile from "./cook/CookProfile";
+>>>>>>> 13ba55d2f0f009564df18b31e334c26ef4c30dcb
 
 // Pages
 import Home from "./pages/Home";
@@ -52,6 +63,7 @@ function RequireAdmin({ children }) {
 }
 
 //  Cook Guard  
+<<<<<<< HEAD
 // function RequireCook({ children }) {
 //   const token = localStorage.getItem("cookToken");
 //   if (!token) {
@@ -59,6 +71,15 @@ function RequireAdmin({ children }) {
 //   }
 //   return children;
 // }
+=======
+function RequireCook({ children }) {
+  const token = localStorage.getItem("cookToken");
+  if (!token) {
+    return <Navigate to="/become-cook" replace />;
+  }
+  return children;
+}
+>>>>>>> 13ba55d2f0f009564df18b31e334c26ef4c30dcb
 
 //  App 
 function App() {
@@ -84,15 +105,24 @@ function App() {
         {/* <Route path="/admin/inquiries" element={<RequireAdmin><AdminLayout><InquiriesTable /></AdminLayout></RequireAdmin>} /> */}
 
         {/* COOK ROUTES */}
+<<<<<<< HEAD
         {/* <Route path="/cookdashboard" element={<RequireCook><CookDashboard /></RequireCook>} />
         <Route path="/cookprofile" element={<RequireCook><CookProfile /></RequireCook>} /> */}
+=======
+        <Route path="/cookdashboard" element={<RequireCook><CookDashboard /></RequireCook>} />
+        <Route path="/cookprofile" element={<RequireCook><CookProfile /></RequireCook>} />
+>>>>>>> 13ba55d2f0f009564df18b31e334c26ef4c30dcb
         {/* <Route path="/cook/orders" element={<CookOrders />} /> */}
         {/* <Route path="/cook/menu" element={<CookMenu />} /> */}
         {/* <Route path="/cook/earnings" element={<CookEarnings />} /> */}
         {/* <Route path="/cook/settings" element={<CookSettings />} /> */}
+<<<<<<< HEAD
 {/* UserAuth  */}
 <Route path="/UserLogin" element={<UserLogin/>}/>
 <Route path="/UserSignUp" element={<UserSignup/>}/>
+=======
+
+>>>>>>> 13ba55d2f0f009564df18b31e334c26ef4c30dcb
         
       </Routes>
     </BrowserRouter>
