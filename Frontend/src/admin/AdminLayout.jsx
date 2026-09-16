@@ -1,32 +1,42 @@
-import React, { useState } from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import {
-  LayoutDashboard, Users, ClipboardList, ChefHat,
-  MessageSquare, CreditCard, BarChart3,
-  Search, ArrowLeft, LogOut, Menu, X,
-} from 'lucide-react';
+  LayoutDashboard,
+  Users,
+  ClipboardList,
+  ChefHat,
+  MessageSquare,
+  CreditCard,
+  BarChart3,
+  Search,
+  ArrowLeft,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
+import { logoutAdmin } from "../utils/adminAuth";
 
-const AdminLayout = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+const AdminLayout = ({ children }) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   const modules = [
-    { name: 'User Management', icon: Users,          path: '/admin/users' },
-    { name: 'Order Management', icon: ClipboardList, path: '/admin/orders' },
-    { name: 'Manage Cooks',     icon: ChefHat,       path: '/admin/cooks' },
-    { name: 'Inquiries',        icon: MessageSquare, path: '/admin/inquiries' },
-    { name: 'Payments',         icon: CreditCard,    path: '/admin/payments' },
-    { name: 'Analytics',        icon: BarChart3,     path: '/admin/analytics' },
+    { name: "User Management",  icon: Users,         path: "/admin/users" },
+    { name: "Order Management", icon: ClipboardList, path: "/admin/orders" },
+    { name: "Manage Cooks",     icon: ChefHat,       path: "/admin/cooks" },
+    { name: "Inquiries",        icon: MessageSquare, path: "/admin/inquiries" },
+    { name: "Payments",         icon: CreditCard,    path: "/admin/payments" },
+    { name: "Analytics",        icon: BarChart3,     path: "/admin/analytics" },
   ];
 
-  const handleBackToWebsite = () => navigate('/');
+  const handleBackToWebsite = () => navigate("/");
 
   const handleLogout = () => {
-    localStorage.removeItem('adminToken');   // match AdminDashboard.js key
+    logoutAdmin();
     sessionStorage.clear();
-    navigate('/admin/login', { replace: true });
+    navigate("/admin/login", { replace: true });
   };
 
   const isActive = (path) => location.pathname === path;
@@ -56,7 +66,9 @@ const AdminLayout = () => {
       {/* Sidebar */}
       <div
         className={`w-64 bg-white shadow-lg fixed h-full overflow-y-auto transition-transform duration-300 z-50 ${
-          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          isMobileMenuOpen
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
         }`}
       >
         <div className="p-6">
@@ -66,7 +78,10 @@ const AdminLayout = () => {
         {/* Search */}
         <div className="px-4 mb-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              size={18}
+            />
             <input
               type="text"
               placeholder="Search menu..."
@@ -80,11 +95,11 @@ const AdminLayout = () => {
         {/* Navigation */}
         <nav className="px-4 space-y-1">
           <button
-            onClick={() => handleNavigation('/admin')}
+            onClick={() => handleNavigation("/admindashboard")}
             className={`w-full text-left px-4 py-2.5 rounded-lg transition-all flex items-center gap-3 ${
-              location.pathname === '/admin'
-                ? 'bg-blue-50 text-blue-600 font-semibold'
-                : 'text-gray-600 hover:bg-gray-50'
+              location.pathname === "/admindashboard"
+                ? "bg-blue-50 text-blue-600 font-semibold"
+                : "text-gray-600 hover:bg-gray-50"
             }`}
           >
             <LayoutDashboard size={20} />
@@ -103,8 +118,8 @@ const AdminLayout = () => {
                   onClick={() => handleNavigation(module.path)}
                   className={`w-full text-left px-4 py-2.5 rounded-lg transition-all flex items-center gap-3 ${
                     isActive(module.path)
-                      ? 'bg-blue-50 text-blue-600 font-semibold'
-                      : 'text-gray-600 hover:bg-gray-50'
+                      ? "bg-blue-50 text-blue-600 font-semibold"
+                      : "text-gray-600 hover:bg-gray-50"
                   }`}
                 >
                   <IconComponent size={20} />
@@ -133,9 +148,9 @@ const AdminLayout = () => {
         </nav>
       </div>
 
-      {/* Main Content — Outlet renders child routes */}
+      {/* Main Content — renders `children` if provided, otherwise uses Outlet */}
       <div className="ml-0 lg:ml-64 flex-1 p-4 md:p-8">
-        <Outlet />
+        {children ?? <Outlet />}
         <div className="mt-8 text-center text-xs text-gray-400">
           © 2026 TiffinBox Admin Panel. All rights reserved.
         </div>

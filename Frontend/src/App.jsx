@@ -1,20 +1,28 @@
 import { useState } from "react";
 import {
-  BrowserRouter, Routes, Route, Navigate, useNavigate,
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
 } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import { Footer } from "./components/Footer";
 
 // Admin
-import AdminDashboard from "./admin/AdminDashboard";
-import AdminLayout from "./admin/AdminLayout"; 
+import AdminDashboard, {
+  OrdersTable,
+  UsersTable,
+  InquiriesTable,
+} from "./admin/AdminDashboard";
+import AdminLayout from "./admin/AdminLayout";
 import CookManagement from "./admin/CookManagement";
 import AdminLogin from "./auth/AdminLogin";
 import AdminRegister from "./auth/AdminRegister";
 
-// Cook Dashboard
+// Cook
 import CookDashboard from "./cook/CookDashboard";
+import CookProfile from "./cook/CookProfile";
 
 // Pages
 import Home from "./pages/Home";
@@ -32,34 +40,25 @@ function PublicLayout({ children, mode, onModeChange }) {
   );
 }
 
-// ─── Admin Route Guard (optional) ───
-function RequireAdmin() {
-  const token = localStorage.getItem('adminToken');
-  const navigate = useNavigate();
+//  Admin Guard 
+function RequireAdmin({ children }) {
+  const token = localStorage.getItem("adminToken");
   if (!token) {
     return <Navigate to="/admin/login" replace />;
   }
-  return <AdminLayout />;
-}
- 
-
-// ========================================
-// COOK ROUTE
-// ========================================
-function CookRoute() {
-  const navigate = useNavigate();
-
-  return (
-    <CookDashboard
-      onExit={() => navigate("/")}
-    />
-  );
+  return children;
 }
 
+//  Cook Guard  
+function RequireCook({ children }) {
+  const token = localStorage.getItem("cookToken");
+  if (!token) {
+    return <Navigate to="/become-cook" replace />;
+  }
+  return children;
+}
 
-// ========================================
-// APP
-// ======================================== 
+//  App 
 function App() {
   const [mode, setMode] = useState("veg");
 
@@ -75,102 +74,22 @@ function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/register" element={<AdminRegister />} />
 
-        {/* ADMIN ROUTES */}
-        <Route path="/admin" element={<AdminDashboard />}>  
-          <Route path="cooks"     element={<CookManagement />} /> 
-          <Route path="*" element={<Navigate to="/admin" replace />} />
-        </Route>
- 
-        {/* FALLBACK */}
-        <Route path="*" element={<Navigate to="/" replace />} />
- 
-        {/* ==================================
-            CONTACT
-        ================================== */}
-        <Route
-          path="/contact"
-          element={
-            <PublicLayout
-              mode={mode}
-              onModeChange={setMode}
-            >
-              <Contact
-                mode={mode}
-                onModeChange={setMode}
-              />
-            </PublicLayout>
-          }
-        />
+        {/* ADMIN */}
+        <Route path="/admindashboard" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
+        <Route path="/admin/cooks" element={<RequireAdmin><AdminLayout><CookManagement /></AdminLayout></RequireAdmin>} />
+        {/* <Route path="/admin/users" element={<RequireAdmin><AdminLayout><UsersTable /></AdminLayout></RequireAdmin>} /> */}
+        {/* <Route path="/admin/orders" element={<RequireAdmin><AdminLayout><OrdersTable /></AdminLayout></RequireAdmin>} /> */}
+        {/* <Route path="/admin/inquiries" element={<RequireAdmin><AdminLayout><InquiriesTable /></AdminLayout></RequireAdmin>} /> */}
 
+        {/* COOK ROUTES */}
+        <Route path="/cookdashboard" element={<RequireCook><CookDashboard /></RequireCook>} />
+        <Route path="/cookprofile" element={<RequireCook><CookProfile /></RequireCook>} />
+        {/* <Route path="/cook/orders" element={<CookOrders />} /> */}
+        {/* <Route path="/cook/menu" element={<CookMenu />} /> */}
+        {/* <Route path="/cook/earnings" element={<CookEarnings />} /> */}
+        {/* <Route path="/cook/settings" element={<CookSettings />} /> */}
 
-        {/* ==================================
-            BECOME COOK
-        ================================== */}
-        <Route
-          path="/become-cook"
-          element={
-            <PublicLayout
-              mode={mode}
-              onModeChange={setMode}
-            >
-              <BecomeCook
-                mode={mode}
-                onModeChange={setMode}
-              />
-            </PublicLayout>
-          }
-        />
-
-
-        {/* ==================================
-            COOK DASHBOARD
-        ================================== */}
-        <Route
-          path="/cook/dashboard"
-          element={<CookRoute />}
-        />
-
-
-        {/* ==================================
-            ADMIN LOGIN
-        ================================== */}
-        <Route
-          path="/admin/login"
-          element={<AdminLogin />}
-        />
-
-
-        {/* ==================================
-            ADMIN REGISTER
-        ================================== */}
-        <Route
-          path="/admin/register"
-          element={<AdminRegister />}
-        />
-
-
-        {/* ==================================
-            ADMIN DASHBOARD
-        ================================== */}
-        <Route
-          path="/admin"
-          element={<AdminRoute />}
-        />
-
-
-        {/* ==================================
-            FALLBACK
-        ================================== */}
-        <Route
-          path="*"
-          element={
-            <Navigate
-              to="/"
-              replace
-            />
-          }
-        />
- 
+        
       </Routes>
     </BrowserRouter>
   );

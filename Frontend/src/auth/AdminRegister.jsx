@@ -9,7 +9,9 @@ import {
   EyeOff,
   Phone,
   UserPlus,
+  KeyRound,
 } from 'lucide-react';
+import { addAdmin, getAdmins, ADMIN_SECRET_KEY } from '../utils/adminAuth';
 
 export default function AdminRegister() {
   const navigate = useNavigate();
@@ -19,9 +21,11 @@ export default function AdminRegister() {
     phone: '',
     password: '',
     confirmPassword: '',
+    secretKey: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showSecret, setShowSecret] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -34,7 +38,7 @@ export default function AdminRegister() {
     e.preventDefault();
     setError('');
 
-    if (!form.name || !form.email || !form.phone || !form.password) {
+    if (!form.name || !form.email || !form.phone || !form.password || !form.secretKey) {
       setError('Please fill in all fields.');
       return;
     }
@@ -46,11 +50,27 @@ export default function AdminRegister() {
       setError('Passwords do not match.');
       return;
     }
+    if (form.secretKey !== ADMIN_SECRET_KEY) {
+      setError('Invalid secret key. Contact the platform owner.');
+      return;
+    }
+
+    const existing = getAdmins();
+    if (existing.some((a) => a.email.toLowerCase() === form.email.toLowerCase().trim())) {
+      setError('An admin with this email already exists.');
+      return;
+    }
 
     setLoading(true);
     setTimeout(() => {
+      addAdmin({
+        name: form.name,
+        email: form.email.trim(),
+        phone: form.phone,
+        password: form.password,
+      });
       setLoading(false);
-      navigate('/admin');
+      navigate('/admin/login', { replace: true });
     }, 800);
   };
 
@@ -85,10 +105,7 @@ export default function AdminRegister() {
                 Full Name
               </label>
               <div className="relative">
-                <User
-                  className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted"
-                  size={16}
-                />
+                <User className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted" size={16} />
                 <input
                   type="text"
                   name="name"
@@ -108,10 +125,7 @@ export default function AdminRegister() {
                 Email Address
               </label>
               <div className="relative">
-                <Mail
-                  className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted"
-                  size={16}
-                />
+                <Mail className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted" size={16} />
                 <input
                   type="email"
                   name="email"
@@ -131,10 +145,7 @@ export default function AdminRegister() {
                 Phone Number
               </label>
               <div className="relative">
-                <Phone
-                  className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted"
-                  size={16}
-                />
+                <Phone className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted" size={16} />
                 <input
                   type="tel"
                   name="phone"
@@ -154,10 +165,7 @@ export default function AdminRegister() {
                 Password
               </label>
               <div className="relative">
-                <Lock
-                  className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted"
-                  size={16}
-                />
+                <Lock className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted" size={16} />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
@@ -185,10 +193,7 @@ export default function AdminRegister() {
                 Confirm Password
               </label>
               <div className="relative">
-                <Lock
-                  className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted"
-                  size={16}
-                />
+                <Lock className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted" size={16} />
                 <input
                   type={showConfirm ? 'text' : 'password'}
                   name="confirmPassword"
@@ -210,6 +215,37 @@ export default function AdminRegister() {
               </div>
             </div>
 
+            {/* Secret key */}
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-heading">
+                Admin Secret Key
+              </label>
+              <div className="relative">
+                <KeyRound className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-muted" size={16} />
+                <input
+                  type={showSecret ? 'text' : 'password'}
+                  name="secretKey"
+                  value={form.secretKey}
+                  onChange={handleChange}
+                  placeholder="Enter the platform secret key"
+                  className="theme-input"
+                  style={{ paddingLeft: '2.75rem', paddingRight: '2.75rem' }}
+                  autoComplete="off"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowSecret((s) => !s)}
+                  className="absolute right-4 top-1/2 z-10 -translate-y-1/2 text-muted transition hover:text-primary-500"
+                  tabIndex={-1}
+                >
+                  {showSecret ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+              <p className="mt-1 text-xs text-muted">
+                Only platform owners can provide this key.
+              </p>
+            </div>
+
             {/* Terms */}
             <label className="flex cursor-pointer items-start gap-2 text-sm text-text">
               <input
@@ -219,17 +255,11 @@ export default function AdminRegister() {
               />
               <span>
                 I agree to the{' '}
-                <Link
-                  to="/terms"
-                  className="font-medium text-primary-500 hover:text-primary-600"
-                >
+                <Link to="/terms" className="font-medium text-primary-500 hover:text-primary-600">
                   Terms
                 </Link>{' '}
                 and{' '}
-                <Link
-                  to="/privacy"
-                  className="font-medium text-primary-500 hover:text-primary-600"
-                >
+                <Link to="/privacy" className="font-medium text-primary-500 hover:text-primary-600">
                   Privacy Policy
                 </Link>
               </span>
@@ -252,19 +282,14 @@ export default function AdminRegister() {
             </button>
           </form>
 
-          {/* Footer link */}
           <p className="mt-6 text-center text-sm text-text">
             Already have an account?{' '}
-            <Link
-              to="/admin/login"
-              className="font-semibold text-primary-500 transition hover:text-primary-600"
-            >
+            <Link to="/admin/login" className="font-semibold text-primary-500 transition hover:text-primary-600">
               Sign in
             </Link>
           </p>
         </div>
       </div>
-      
     </div>
   );
 }
