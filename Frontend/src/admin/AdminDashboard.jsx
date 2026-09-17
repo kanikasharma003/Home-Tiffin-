@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import AdminLayout from "./AdminLayout";
 
-// ─── Mock Data ────────────────────────────────────────────────────────────
+// Mock Data 
 
 const statsData = [
   { label: "Total Orders", value: "1,248", change: "+12%", icon: Package, color: "text-primary-500", bg: "bg-primary-50" },
@@ -70,7 +70,7 @@ const inquiriesData = [
   { id: 4, name: "Mohan Rao", email: "mohan@example.com", subject: "Custom diet plan", message: "Need low-oil, high-protein tiffin for fitness.", date: "2025-01-12", status: "Closed" },
 ];
 
-// ─── Admin Profile ───────────────────────────────────────────────────────
+// Admin Profile 
 
 const adminProfile = {
   name: "Admin User",
@@ -80,7 +80,7 @@ const adminProfile = {
   initials: "AD",
 };
 
-// ─── Status Badge ────────────────────────────────────────────────────────
+// Status Badge 
 
 const statusStyles = {
   Delivered: "bg-veg-green-light text-veg-green-dark",
@@ -106,8 +106,7 @@ export function StatusBadge({ status }) {
     </span>
   );
 }
-
-// ─── Field helper ────────────────────────────────────────────────────────
+ 
 
 function Field({ label, value, onChange }) {
   return (
@@ -124,7 +123,7 @@ function Field({ label, value, onChange }) {
   );
 }
 
-// ─── Interactive Welcome Banner ─────────────────────────────────────────
+//  Welcome Banner 
 
 function WelcomeBanner() {
   const [now, setNow] = useState(new Date());
@@ -319,7 +318,7 @@ function WelcomeBanner() {
   );
 }
 
-// ─── Stats Grid ──────────────────────────────────────────────────────────
+// Stats Grid 
 
 function StatsGrid() {
   return (
@@ -357,7 +356,7 @@ function StatsGrid() {
   );
 }
 
-// ─── Admin Logins Table ─────────────────────────────────────────────────
+// Admin Logins Table 
 
 function AdminLoginsTable() {
   return (
@@ -415,7 +414,7 @@ function AdminLoginsTable() {
   );
 }
 
-// ─── Orders Table ───────────────────────────────────────────────────────
+// Orders Table 
 
 export function OrdersTable() {
   return (
@@ -477,7 +476,7 @@ export function OrdersTable() {
   );
 }
 
-// ─── Users Table ────────────────────────────────────────────────────────
+// Users Table 
 
 export function UsersTable() {
   return (
@@ -550,7 +549,7 @@ export function UsersTable() {
   );
 }
 
-// ─── Cooks Grid ─────────────────────────────────────────────────────────
+// Cooks Grid 
 
 export function CooksGrid() {
   return (
@@ -659,7 +658,7 @@ export function InquiriesTable() {
   );
 }
 
-// ─── Dashboard Overview ─────────────────────────────────────────────────
+// Dashboard Overview 
 
 export function DashboardOverview() {
   const navigate = useNavigate();
@@ -728,7 +727,7 @@ export function DashboardOverview() {
   );
 }
 
-// ─── Admin Dashboard (Default Export) ───────────────────────────────────
+// Admin Dashboard  
 
 export default function AdminDashboard() {
   return (
