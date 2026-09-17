@@ -28,7 +28,7 @@ const CookManagement = () => {
     setCooks(getApplications());
   }, []);
 
-  //  Stats
+  // Stats
   const stats = {
     total: cooks.length,
     pending: cooks.filter((c) => c.status === "pending").length,
@@ -36,7 +36,7 @@ const CookManagement = () => {
     rejected: cooks.filter((c) => c.status === "rejected").length,
   };
 
-  //  Filter + Search
+  // Filter + Search
   const filteredCooks = cooks.filter((c) => {
     const matchesFilter = filter === "all" || c.status === filter;
     const q = search.toLowerCase();
@@ -48,7 +48,7 @@ const CookManagement = () => {
     return matchesFilter && matchesSearch;
   });
 
-  //  Actions
+  // Actions
   const updateStatus = (id, status) => {
     const next = updateApplicationStatus(id, status);
     setCooks(next);
@@ -200,17 +200,9 @@ const CookManagement = () => {
                       {/* Cook */}
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          {cook.avatar ? (
-                            <img
-                              src={cook.avatar}
-                              alt={cook.name}
-                              className="w-10 h-10 rounded-full object-cover"
-                            />
-                          ) : (
-                            <div className="w-10 h-10 rounded-full bg-[#FFEBEB] text-[#E53935] flex items-center justify-center font-bold text-sm">
-                              {initials(cook.name)}
-                            </div>
-                          )}
+                          <div className="w-10 h-10 rounded-full bg-[#FFEBEB] text-[#E53935] flex items-center justify-center font-bold text-sm shrink-0">
+                            {initials(cook.name)}
+                          </div>
                           <div className="min-w-0">
                             <p className="font-semibold text-sm text-gray-900">
                               {cook.name}
@@ -313,17 +305,9 @@ const CookManagement = () => {
               {/* Header */}
               <div className="flex items-start justify-between p-6 border-b border-gray-100">
                 <div className="flex items-center gap-4">
-                  {selectedCook.avatar ? (
-                    <img
-                      src={selectedCook.avatar}
-                      alt={selectedCook.name}
-                      className="w-14 h-14 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-14 h-14 rounded-full bg-[#FFEBEB] text-[#E53935] flex items-center justify-center font-bold">
-                      {initials(selectedCook.name)}
-                    </div>
-                  )}
+                  <div className="w-14 h-14 rounded-full bg-[#FFEBEB] text-[#E53935] flex items-center justify-center font-bold text-lg">
+                    {initials(selectedCook.name)}
+                  </div>
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">
                       {selectedCook.name}
