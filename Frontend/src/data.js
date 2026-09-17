@@ -3,11 +3,12 @@
 export const NAV_LINKS = [
   { label: 'Home', href: '#home' },
   { label: 'Plans', href: '#plans' },
-  { label: 'Menu', href: '#menu' },
+  { label: 'Menu', href: '/kitchens' },
   { label: 'How It Works', href: '#how-it-works' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ]
+
 
 export const STATS = [
   { icon: 'boxes', value: '10K+', label: 'Meals Delivered' },
