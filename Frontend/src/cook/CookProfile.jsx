@@ -20,7 +20,7 @@ import {
 import CookLayout from "./CookLayout";
 import { getCurrentCook, updateCookProfile } from "../utils/cookApplications";
 
-// ─── Field ──────────────────────────────────────────────────────────────
+// Field 
 function Field({
   label,
   icon: Icon,
@@ -67,7 +67,7 @@ function Field({
   );
 }
 
-// ─── CookProfile ────────────────────────────────────────────────────────
+// CookProfile 
 function CookProfile() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
@@ -77,7 +77,6 @@ function CookProfile() {
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
 
-  // ─── Load ─────────────────────────────────────────────────────────────
   useEffect(() => {
     const cook = getCurrentCook();
     if (!cook) {
@@ -107,7 +106,7 @@ function CookProfile() {
   const dirty =
     profile && draft && JSON.stringify(profile) !== JSON.stringify(draft);
 
-  // ─── Warn if leaving with unsaved edits ──────────────────────────────
+  
   useEffect(() => {
     const handler = (e) => {
       if (editing && dirty) {
@@ -119,7 +118,6 @@ function CookProfile() {
     return () => window.removeEventListener("beforeunload", handler);
   }, [editing, dirty]);
 
-  // ─── Escape key cancels editing ──────────────────────────────────────
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape" && editing) handleCancel();
@@ -140,7 +138,6 @@ function CookProfile() {
     }
   };
 
-  // ─── Phone-specific handler — digits only, max 10 ────────────────────
   const updatePhone = (value) => {
     const digits = value.replace(/\D/g, "").slice(0, 10);
     setDraft((d) => ({ ...d, phone: digits }));
@@ -153,7 +150,6 @@ function CookProfile() {
     }
   };
 
-  // ─── Validation ──────────────────────────────────────────────────────
   const validate = useCallback(() => {
     const e = {};
 
@@ -164,7 +160,6 @@ function CookProfile() {
       e.kitchenName = "Kitchen name must be at least 2 characters";
     }
 
-    // Full name
     if (!draft.name?.trim()) {
       e.name = "Full name is required";
     } else if (draft.name.trim().length < 2) {
@@ -173,7 +168,7 @@ function CookProfile() {
       e.name = "Name can only contain letters, spaces, and . ' -";
     }
 
-    // Email — strict
+    // Email 
     const email = draft.email?.trim() || "";
     if (!email) {
       e.email = "Email is required";
@@ -183,7 +178,6 @@ function CookProfile() {
       e.email = "Enter a valid email (e.g. name@example.com)";
     }
 
-    // Phone — exactly 10 digits, Indian mobile format
     const phone = draft.phone || "";
     if (!phone) {
       e.phone = "Phone number is required";
@@ -201,7 +195,6 @@ function CookProfile() {
     return e;
   }, [draft]);
 
-  // ─── Field-level validation on blur ──────────────────────────────────
   const validateField = (key) => () => {
     const all = validate();
     setErrors((prev) => {
@@ -212,7 +205,7 @@ function CookProfile() {
     });
   };
 
-  // ─── Save ────────────────────────────────────────────────────────────
+  // Save 
   const handleSave = () => {
     const e = validate();
     if (Object.keys(e).length > 0) {
@@ -551,7 +544,7 @@ function CookProfile() {
   );
 }
 
-// ─── Stat Card ──────────────────────────────────────────────────────────
+// Stat Card 
 function StatCard({ icon: Icon, label, value }) {
   return (
     <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">

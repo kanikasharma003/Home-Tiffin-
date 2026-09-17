@@ -60,9 +60,7 @@ function CookLayout({ children }) {
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#f6f8f6]">
-      {/* =====================================================
-          MOBILE HEADER
-      ===================================================== */}
+      {/*  MOBILE HEADER */}
       <div className="fixed inset-x-0 top-0 z-50 flex h-16 items-center justify-between border-b bg-white px-4 lg:hidden">
         <div className="flex items-center gap-2">
           <div
@@ -87,9 +85,7 @@ function CookLayout({ children }) {
         </button>
       </div>
 
-      {/* =====================================================
-          SIDEBAR
-      ===================================================== */}
+      {/*  SIDEBAR */}
       <aside
         className={`fixed inset-y-0 left-0 z-40 flex h-screen w-72 flex-col border-r bg-white transition-transform duration-300 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"

@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import CookLayout from "./CookLayout";
 
-// ─── Food images ────────────────────────────────────────────────────────
+// Food images 
 import dalThali from "../assets/menu-dal-thali.jpg";
 import paneer from "../assets/menu-paneer.jpg";
 import biryani from "../assets/menu-biryani.jpg";
@@ -17,7 +17,7 @@ import chole from "../assets/menu-chole.jpg";
 import alooGobi from "../assets/menu-aloo-gobi.jpg";
 import soya from "../assets/menu-soya.jpg";
 
-// ─── Shared mock data ───────────────────────────────────────────────────
+// Shared mock data 
 export const orders = [
   { id: "#TB1024", customer: "Rahul Sharma", meal: "Dal Tadka + Roti", qty: 2, amount: 180, status: "Preparing" },
   { id: "#TB1023", customer: "Priya Singh",  meal: "Paneer Thali",     qty: 1, amount: 140, status: "Ready" },
@@ -34,7 +34,7 @@ export const menuItemsData = [
   { image: chole,    name: "Chole Rice",   price: "₹110", orders: "9 orders" },
 ];
 
-// ─── Cook Dashboard Page ────────────────────────────────────────────────
+// Cook Dashboard  
 function CookDashboard() {
   const navigate = useNavigate();
 
@@ -110,7 +110,7 @@ function CookDashboard() {
         </div>
       </div>
 
-      {/* ─── ORDERS + MENU ─────────────────────────────────── */}
+      {/* ORDERS and MENU */}
       <div className="mt-6 grid gap-6 xl:grid-cols-[1.6fr_0.9fr]">
         <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
           <div className="flex items-center justify-between border-b px-5 py-5">
@@ -208,7 +208,7 @@ function CookDashboard() {
         </div>
       </div>
 
-      {/* ─── BOTTOM CARDS ─────────────────────────────────── */}
+      {/* BOTTOM CARDS */}
       <div className="mt-6 grid gap-6 md:grid-cols-2">
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
           <h3 className="font-extrabold text-[#174d35]">Today's Tasks</h3>
