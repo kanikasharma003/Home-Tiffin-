@@ -11,14 +11,16 @@ import { Footer } from "./components/Footer";
 
 // Admin
 import AdminDashboard, {
-  OrdersTable,
-  UsersTable,
-  InquiriesTable,
-} from "./admin/AdminDashboard";
+  // OrdersTable,
+  // UsersTable,
+  // InquiriesTable,
+}
+ from "./admin/AdminDashboard";
 import AdminLayout from "./admin/AdminLayout";
 import CookManagement from "./admin/CookManagement";
 import AdminLogin from "./auth/AdminLogin";
 import AdminRegister from "./auth/AdminRegister";
+import InquiriesManagment from "./admin/InquiriesManagment";
 
 // Cook
 import CookDashboard from "./cook/CookDashboard";
@@ -77,6 +79,7 @@ function App() {
         {/* ADMIN */}
         <Route path="/admindashboard" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
         <Route path="/admin/cooks" element={<RequireAdmin><AdminLayout><CookManagement /></AdminLayout></RequireAdmin>} />
+        <Route path="/admin/inquiries" element={<InquiriesManagment />}/>
         {/* <Route path="/admin/users" element={<RequireAdmin><AdminLayout><UsersTable /></AdminLayout></RequireAdmin>} /> */}
         {/* <Route path="/admin/orders" element={<RequireAdmin><AdminLayout><OrdersTable /></AdminLayout></RequireAdmin>} /> */}
         {/* <Route path="/admin/inquiries" element={<RequireAdmin><AdminLayout><InquiriesTable /></AdminLayout></RequireAdmin>} /> */}

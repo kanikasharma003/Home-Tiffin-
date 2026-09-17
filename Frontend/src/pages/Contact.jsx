@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import {
   Mail,
   Phone,
@@ -12,6 +13,8 @@ import {
 
 import contactImage from "../assets/contact.jpg";
 
+import { addInquiry } from "../utils/inquiryStorage";
+
 function Contact() {
   const [formData, setFormData] = useState({
     name: "",
@@ -21,6 +24,7 @@ function Contact() {
     message: "",
   });
 
+  // Handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -28,11 +32,27 @@ function Contact() {
     });
   };
 
+  // Submit contact form
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    alert("Thank you! Your message has been sent.");
+    // Save inquiry for Admin
+    addInquiry({
+      fullName: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      type:
+        formData.subject === ""
+          ? "General Query"
+          : formData.subject,
+      message: formData.message,
+    });
 
+    alert(
+      "Thank you! Your message has been sent successfully."
+    );
+
+    // Clear form
     setFormData({
       name: "",
       email: "",
@@ -42,6 +62,7 @@ function Contact() {
     });
   };
 
+  // Scroll to contact form
   const goToForm = () => {
     document.getElementById("contact-form")?.scrollIntoView({
       behavior: "smooth",
@@ -54,6 +75,7 @@ function Contact() {
       {/* =====================================================
           HERO SECTION
       ===================================================== */}
+
       <section className="relative min-h-[570px] overflow-hidden">
 
         {/* Background Image */}
@@ -63,10 +85,10 @@ function Contact() {
           className="absolute inset-0 h-full w-full object-cover"
         />
 
-        {/* Soft Green Gradient Overlay */}
+        {/* Green Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#123d2a]/90 via-[#174d35]/60 to-transparent" />
 
-        {/* Bottom Soft Gradient */}
+        {/* Bottom Gradient */}
         <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/20 to-transparent" />
 
         {/* Hero Content */}
@@ -90,15 +112,17 @@ function Contact() {
 
             {/* Description */}
             <p className="mt-6 max-w-xl text-base leading-8 text-white/85 sm:text-lg">
-              Have a question about your meals, delivery, subscription,
-              or anything else? Our friendly team is always ready to help.
+              Have a question about your meals, delivery,
+              subscription, or anything else? Our friendly
+              team is always ready to help.
             </p>
 
-            {/* Contact Info */}
+            {/* Contact Information */}
             <div className="mt-9 grid gap-5 sm:grid-cols-3">
 
               {/* Phone */}
               <div className="flex items-center gap-3">
+
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15 backdrop-blur-md">
                   <Phone size={19} />
                 </div>
@@ -107,14 +131,17 @@ function Contact() {
                   <p className="text-sm font-bold">
                     Call Us
                   </p>
+
                   <p className="mt-1 text-xs text-white/70">
                     +91 98765 43210
                   </p>
                 </div>
+
               </div>
 
               {/* Email */}
               <div className="flex items-center gap-3">
+
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15 backdrop-blur-md">
                   <Mail size={19} />
                 </div>
@@ -123,14 +150,17 @@ function Contact() {
                   <p className="text-sm font-bold">
                     Email Us
                   </p>
+
                   <p className="mt-1 text-xs text-white/70">
                     hello@tiffinbox.com
                   </p>
                 </div>
+
               </div>
 
               {/* Location */}
               <div className="flex items-center gap-3">
+
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15 backdrop-blur-md">
                   <MapPin size={19} />
                 </div>
@@ -139,10 +169,12 @@ function Contact() {
                   <p className="text-sm font-bold">
                     Visit Us
                   </p>
+
                   <p className="mt-1 text-xs text-white/70">
                     Chowk, Nagpur
                   </p>
                 </div>
+
               </div>
 
             </div>
@@ -161,13 +193,15 @@ function Contact() {
       {/* =====================================================
           CONTACT FORM SECTION
       ===================================================== */}
+
       <section
         id="contact-form"
         className="px-4 py-20 sm:px-6 lg:px-8"
       >
+
         <div className="mx-auto max-w-6xl">
 
-          {/* Heading */}
+          {/* Section Heading */}
           <div className="mb-10 text-center">
 
             <p
@@ -189,10 +223,14 @@ function Contact() {
           </div>
 
 
-          {/* Main Contact Card */}
+          {/* Contact Card */}
           <div className="grid overflow-hidden rounded-[2rem] bg-white shadow-xl lg:grid-cols-[0.75fr_1.25fr]">
 
-            {/* LEFT PANEL */}
+
+            {/* =================================================
+                LEFT PANEL
+            ================================================= */}
+
             <div
               className="relative overflow-hidden p-8 sm:p-10"
               style={{
@@ -206,10 +244,12 @@ function Contact() {
 
               <div className="relative">
 
+                {/* Icon */}
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/15 text-white">
                   <MessageSquare size={24} />
                 </div>
 
+                {/* Title */}
                 <h3 className="mt-6 text-3xl font-extrabold text-white">
                   Let's Talk
                 </h3>
@@ -222,7 +262,11 @@ function Contact() {
 
                 {/* Phone */}
                 <div className="mt-10 flex gap-4 text-white">
-                  <Phone size={20} className="mt-1 shrink-0" />
+
+                  <Phone
+                    size={20}
+                    className="mt-1 shrink-0"
+                  />
 
                   <div>
                     <p className="font-bold">
@@ -233,12 +277,17 @@ function Contact() {
                       +91 98765 43210
                     </p>
                   </div>
+
                 </div>
 
 
                 {/* Email */}
                 <div className="mt-7 flex gap-4 text-white">
-                  <Mail size={20} className="mt-1 shrink-0" />
+
+                  <Mail
+                    size={20}
+                    className="mt-1 shrink-0"
+                  />
 
                   <div>
                     <p className="font-bold">
@@ -249,12 +298,17 @@ function Contact() {
                       hello@tiffinbox.com
                     </p>
                   </div>
+
                 </div>
 
 
                 {/* Location */}
                 <div className="mt-7 flex gap-4 text-white">
-                  <MapPin size={20} className="mt-1 shrink-0" />
+
+                  <MapPin
+                    size={20}
+                    className="mt-1 shrink-0"
+                  />
 
                   <div>
                     <p className="font-bold">
@@ -265,6 +319,7 @@ function Contact() {
                       Chowk, Nagpur 440001
                     </p>
                   </div>
+
                 </div>
 
 
@@ -278,7 +333,10 @@ function Contact() {
             </div>
 
 
-            {/* RIGHT FORM */}
+            {/* =================================================
+                RIGHT FORM
+            ================================================= */}
+
             <div className="p-8 sm:p-10">
 
               <form
@@ -289,7 +347,9 @@ function Contact() {
                 {/* Name + Email */}
                 <div className="grid gap-5 sm:grid-cols-2">
 
+                  {/* Name */}
                   <div>
+
                     <label className="mb-2 block text-sm font-bold text-gray-700">
                       Your Name *
                     </label>
@@ -303,10 +363,13 @@ function Contact() {
                       placeholder="Enter your name"
                       className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 outline-none transition focus:border-[var(--primary)] focus:ring-2 focus:ring-green-100"
                     />
+
                   </div>
 
 
+                  {/* Email */}
                   <div>
+
                     <label className="mb-2 block text-sm font-bold text-gray-700">
                       Email Address *
                     </label>
@@ -320,6 +383,7 @@ function Contact() {
                       placeholder="Enter your email"
                       className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 outline-none transition focus:border-[var(--primary)] focus:ring-2 focus:ring-green-100"
                     />
+
                   </div>
 
                 </div>
@@ -327,6 +391,7 @@ function Contact() {
 
                 {/* Phone */}
                 <div>
+
                   <label className="mb-2 block text-sm font-bold text-gray-700">
                     Phone Number *
                   </label>
@@ -340,11 +405,13 @@ function Contact() {
                     placeholder="Enter your phone number"
                     className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 outline-none transition focus:border-[var(--primary)] focus:ring-2 focus:ring-green-100"
                   />
+
                 </div>
 
 
                 {/* Subject */}
                 <div>
+
                   <label className="mb-2 block text-sm font-bold text-gray-700">
                     What can we help you with?
                   </label>
@@ -355,35 +422,39 @@ function Contact() {
                     onChange={handleChange}
                     className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 outline-none transition focus:border-[var(--primary)] focus:ring-2 focus:ring-green-100"
                   >
+
                     <option value="">
                       Select an option
                     </option>
 
-                    <option value="food">
+                    <option value="Meal / Menu">
                       Food & Menu
                     </option>
 
-                    <option value="delivery">
+                    <option value="Delivery Issue">
                       Delivery
                     </option>
 
-                    <option value="plans">
+                    <option value="Subscription">
                       Tiffin Plans
                     </option>
 
-                    <option value="order">
+                    <option value="Order Support">
                       Order Support
                     </option>
 
-                    <option value="other">
+                    <option value="General Query">
                       Other
                     </option>
+
                   </select>
+
                 </div>
 
 
                 {/* Message */}
                 <div>
+
                   <label className="mb-2 block text-sm font-bold text-gray-700">
                     Your Message *
                   </label>
@@ -397,6 +468,7 @@ function Contact() {
                     placeholder="Write your message..."
                     className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3 outline-none transition focus:border-[var(--primary)] focus:ring-2 focus:ring-green-100"
                   />
+
                 </div>
 
 
@@ -409,13 +481,17 @@ function Contact() {
                       "linear-gradient(135deg, var(--primary), var(--primary-strong))",
                   }}
                 >
+
                   Send Message
+
                   <Send size={18} />
+
                 </button>
 
               </form>
 
             </div>
+
           </div>
         </div>
       </section>
@@ -424,7 +500,9 @@ function Contact() {
       {/* =====================================================
           STILL HAVE A QUESTION
       ===================================================== */}
+
       <section className="px-4 pb-20 sm:px-6 lg:px-8">
+
         <div className="mx-auto max-w-6xl">
 
           <div
@@ -436,7 +514,7 @@ function Contact() {
             }}
           >
 
-            {/* Decorative circles */}
+            {/* Decorative Circle 1 */}
             <div
               className="absolute -right-20 -top-20 h-52 w-52 rounded-full opacity-20"
               style={{
@@ -444,6 +522,7 @@ function Contact() {
               }}
             />
 
+            {/* Decorative Circle 2 */}
             <div
               className="absolute -bottom-24 -left-20 h-56 w-56 rounded-full opacity-10"
               style={{
@@ -490,6 +569,7 @@ function Contact() {
                     "linear-gradient(135deg, var(--primary), var(--primary-strong))",
                 }}
               >
+
                 <MessageSquare size={18} />
 
                 Contact Support
@@ -498,6 +578,7 @@ function Contact() {
                   size={17}
                   className="transition-transform duration-300 group-hover:translate-x-1"
                 />
+
               </button>
 
 
@@ -509,8 +590,11 @@ function Contact() {
                   borderColor: "var(--primary-border)",
                 }}
               >
+
                 <Mail size={18} />
+
                 Email Us
+
               </a>
 
             </div>
@@ -518,6 +602,7 @@ function Contact() {
 
             {/* Response Time */}
             <div className="relative mt-6 flex items-center justify-center gap-2 text-xs text-gray-500">
+
               <Clock
                 size={14}
                 style={{
@@ -526,10 +611,13 @@ function Contact() {
               />
 
               Usually replies within 24 hours
+
             </div>
 
           </div>
+
         </div>
+
       </section>
 
     </main>
