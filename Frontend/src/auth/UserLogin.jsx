@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../utils/UserAuth";
-// import bannerImg from "../assets/home-tiffin-banner.png";
+import bannerImg from "../assets/home-tiffin-banner.png";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function UserLogin() {
@@ -18,6 +18,9 @@ export default function UserLogin() {
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
+  // =========================
+  // HANDLE INPUT CHANGE
+  // =========================
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -33,6 +36,9 @@ export default function UserLogin() {
     }));
   };
 
+  // =========================
+  // VALIDATION
+  // =========================
   const validate = () => {
     const next = {};
 
@@ -49,6 +55,9 @@ export default function UserLogin() {
     return Object.keys(next).length === 0;
   };
 
+  // =========================
+  // FORM SUBMIT
+  // =========================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -60,7 +69,11 @@ export default function UserLogin() {
       await login(form);
 
       // Login successful → Kitchen List
-      navigate("/kitchens", { replace: true });
+      navigate("/kitchens", {
+        replace: true,
+      });
+
+      // navigate("/user/dashboard", { replace: true });
     } catch {
       setErrors({
         form: "Invalid email or password.",
@@ -71,56 +84,65 @@ export default function UserLogin() {
   };
 
   return (
-    <div
-      className="
-        relative min-h-screen  w-full
-        flex items-center justify-center
-        md:justify-end
-        p-4 sm:p-6 md:pr-16
-        bg-cover bg-center
-        bg-red-200
-      "
-    // style={{
-    //   backgroundImage: `url(${bannerImg})`,
-    // }}
-    >
-      {/* Red dark overlay */}
-      <div className="absolute inset-0 bg-[#5f0f1f]/45 h-full" />
+    <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center md:justify-end p-4 sm:p-6 md:pr-16 bg-red-200">
 
-      {/* Login Card */}
+      {/* =========================
+          BACKGROUND IMAGE
+      ========================= */}
       <div
-        className=" relative z-10 w-full max-w-sm
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${bannerImg})`,
+        }}
+      />
+
+      {/* =========================
+          LOGIN CARD
+      ========================= */}
+      <div
+        className="
+          relative z-10
+          w-full max-w-sm
           rounded-2xl
           overflow-hidden
           border border-white/30
-          bg-[#ffffff]/15
+          bg-white/15
           backdrop-blur-xl
           shadow-2xl
           px-6 py-8
           sm:px-8 sm:py-10
         "
       >
-        {/* Heading */}
+
+        {/* =========================
+            HEADING
+        ========================= */}
         <h1
           className="
             text-2xl sm:text-3xl
             font-bold
-            text-[#9d1c34]
             mb-2
             text-center
             drop-shadow-sm
           "
+          style={{
+            color: "#e7133b",
+          }}
         >
           Welcome Back
         </h1>
 
+        {/* Description */}
         <p className="text-sm text-gray-700 text-center mb-6 leading-relaxed">
           Log in to order fresh home-cooked
           <br />
           tiffins near you.
         </p>
 
-        {/* Error */}
+
+        {/* =========================
+            FORM ERROR
+        ========================= */}
         {errors.form && (
           <div
             className="
@@ -137,8 +159,19 @@ export default function UserLogin() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-          {/* Email */}
+
+        {/* =========================
+            FORM
+        ========================= */}
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-5"
+          noValidate
+        >
+
+          {/* =========================
+              EMAIL
+          ========================= */}
           <div>
             <label
               className="
@@ -172,9 +205,11 @@ export default function UserLogin() {
                 focus:outline-none
                 focus:ring-2
                 transition-all
-                ${errors.email
-                  ? "border-red-400 focus:ring-red-300/50"
-                  : "border-gray-300 focus:border-[#9d1c34] focus:ring-[#9d1c34]/20"
+
+                ${
+                  errors.email
+                    ? "border-red-400 focus:ring-red-300/50"
+                    : "border-gray-300 focus:border-[#e7133b] focus:ring-[#e7133b]/20"
                 }
               `}
             />
@@ -186,7 +221,10 @@ export default function UserLogin() {
             )}
           </div>
 
-          {/* Password */}
+
+          {/* =========================
+              PASSWORD
+          ========================= */}
           <div>
             <label
               className="
@@ -201,6 +239,7 @@ export default function UserLogin() {
             </label>
 
             <div className="relative">
+
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -222,13 +261,16 @@ export default function UserLogin() {
                   focus:outline-none
                   focus:ring-2
                   transition-all
-                  ${errors.password
-                    ? "border-red-400 focus:ring-red-300/50"
-                    : "border-gray-300 focus:border-[#9d1c34] focus:ring-[#9d1c34]/20"
+
+                  ${
+                    errors.password
+                      ? "border-red-400 focus:ring-red-300/50"
+                      : "border-gray-300 focus:border-[#e7133b] focus:ring-[#e7133b]/20"
                   }
                 `}
               />
 
+              {/* Show / Hide Password */}
               <button
                 type="button"
                 onClick={() =>
@@ -239,10 +281,11 @@ export default function UserLogin() {
                   right-3
                   top-1/2
                   -translate-y-1/2
-                  text-[#9d1c34]
-                  hover:text-[#7d162a]
                   transition-colors
                 "
+                style={{
+                  color: "#e7133b",
+                }}
               >
                 {showPassword ? (
                   <Eye size={17} />
@@ -250,6 +293,7 @@ export default function UserLogin() {
                   <EyeOff size={17} />
                 )}
               </button>
+
             </div>
 
             {errors.password && (
@@ -259,31 +303,37 @@ export default function UserLogin() {
             )}
           </div>
 
-          {/* Forgot Password */}
+
+          {/* =========================
+              FORGOT PASSWORD
+          ========================= */}
           <div className="flex justify-end">
             <button
               type="button"
               className="
                 text-xs
                 font-semibold
-                text-[#9d1c34]
-                hover:text-[#7d162a]
                 transition-colors
               "
+              style={{
+                color: "#e7133b",
+              }}
             >
               Forgot password?
             </button>
           </div>
 
-          {/* Login Button */}
+
+          {/* =========================
+              LOGIN BUTTON
+          ========================= */}
           <button
             type="submit"
             disabled={submitting}
             className="
               w-full
-              bg-[#9d1c34]
-              hover:bg-[#7d162a]
               disabled:opacity-60
+              disabled:cursor-not-allowed
               cursor-pointer
               text-white
               font-semibold
@@ -294,26 +344,33 @@ export default function UserLogin() {
               shadow-md
               hover:shadow-lg
             "
+            style={{
+              backgroundColor: "#e7133b",
+            }}
           >
             {submitting ? "Please wait..." : "Log in"}
           </button>
+
         </form>
 
-        {/* Register */}
+
+        {/* =========================
+            REGISTER
+        ========================= */}
         <p className="mt-6 text-center text-sm text-gray-700">
           New to Home Tiffin?{" "}
+
           <Link
             to="/User/SignUp"
-            className="
-              font-bold
-              text-[#9d1c34]
-              hover:text-[#7d162a]
-              transition-colors
-            "
+            className="font-bold transition-colors"
+            style={{
+              color: "#e7133b",
+            }}
           >
             Register
           </Link>
         </p>
+
       </div>
     </div>
   );
