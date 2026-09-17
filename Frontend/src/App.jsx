@@ -5,10 +5,12 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-
+import UserLogin from "./auth/UserLogin";
+import UserSignup from "./auth/UserSignUp";
+import { AuthProvider } from "./utils/UserAuth";
 import Navbar from "./components/Navbar";
 import { Footer } from "./components/Footer";
-
+import Kitchenlist from "./pages/Kitchenlist";
 // Admin
 import AdminDashboard, {
   // OrdersTable,
@@ -18,13 +20,18 @@ import AdminDashboard, {
  from "./admin/AdminDashboard";
 import AdminLayout from "./admin/AdminLayout";
 import CookManagement from "./admin/CookManagement";
-import AdminLogin from "./auth/AdminLogin";
-import AdminRegister from "./auth/AdminRegister";
+// import AdminLogin from "./auth/AdminLogin";
+// import AdminRegister from "./auth/AdminRegister";
 import InquiriesManagment from "./admin/InquiriesManagment";
 
 // Cook
+
+// import CookDashboard from "./cook/CookDashboard";
+// import CookProfile from "./cook/CookProfile";
+
 import CookDashboard from "./cook/CookDashboard";
 import CookProfile from "./cook/CookProfile";
+
 
 // Pages
 import Home from "./pages/Home";
@@ -52,6 +59,15 @@ function RequireAdmin({ children }) {
 }
 
 //  Cook Guard  
+
+// function RequireCook({ children }) {
+//   const token = localStorage.getItem("cookToken");
+//   if (!token) {
+//     return <Navigate to="/become-cook" replace />;
+//   }
+//   return children;
+// }
+
 function RequireCook({ children }) {
   const token = localStorage.getItem("cookToken");
   if (!token) {
@@ -60,21 +76,25 @@ function RequireCook({ children }) {
   return children;
 }
 
+
 //  App 
 function App() {
   const [mode, setMode] = useState("veg");
 
   return (
     <BrowserRouter>
-      <Routes>
-        {/* PUBLIC */}
-        <Route path="/" element={<PublicLayout mode={mode} onModeChange={setMode}><Home mode={mode} onModeChange={setMode} /></PublicLayout>} />
-        <Route path="/contact" element={<PublicLayout mode={mode} onModeChange={setMode}><Contact mode={mode} onModeChange={setMode} /></PublicLayout>} />
-        <Route path="/become-cook" element={<PublicLayout mode={mode} onModeChange={setMode}><BecomeCook mode={mode} onModeChange={setMode} /></PublicLayout>} />
+      <AuthProvider>
+        <Routes>
 
-        {/* AUTH */}
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/register" element={<AdminRegister />} />
+          {/* PUBLIC */}
+          <Route
+            path="/"
+            element={
+              <PublicLayout mode={mode} onModeChange={setMode}>
+                <Home mode={mode} onModeChange={setMode} />
+              </PublicLayout>
+            }
+          />
 
         {/* ADMIN */}
         <Route path="/admindashboard" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
@@ -84,16 +104,69 @@ function App() {
         {/* <Route path="/admin/orders" element={<RequireAdmin><AdminLayout><OrdersTable /></AdminLayout></RequireAdmin>} /> */}
         {/* <Route path="/admin/inquiries" element={<RequireAdmin><AdminLayout><InquiriesTable /></AdminLayout></RequireAdmin>} /> */}
 
-        {/* COOK ROUTES */}
-        <Route path="/cookdashboard" element={<RequireCook><CookDashboard /></RequireCook>} />
-        <Route path="/cookprofile" element={<RequireCook><CookProfile /></RequireCook>} />
-        {/* <Route path="/cook/orders" element={<CookOrders />} /> */}
-        {/* <Route path="/cook/menu" element={<CookMenu />} /> */}
-        {/* <Route path="/cook/earnings" element={<CookEarnings />} /> */}
-        {/* <Route path="/cook/settings" element={<CookSettings />} /> */}
 
-        
-      </Routes>
+          <Route
+            path="/become-cook"
+            element={
+              <PublicLayout mode={mode} onModeChange={setMode}>
+                <BecomeCook mode={mode} onModeChange={setMode} />
+              </PublicLayout>
+            }
+          />
+
+          {/* ADMIN */}
+          <Route
+            path="/admindashboard"
+            element={
+              <RequireAdmin>
+                <AdminDashboard />
+              </RequireAdmin>
+            }
+          />
+
+          <Route
+            path="/admin/cooks"
+            element={
+              <RequireAdmin>
+                <AdminLayout>
+                  <CookManagement />
+                </AdminLayout>
+              </RequireAdmin>
+            }
+          />
+
+          {/* COOK */}
+          <Route
+            path="/cookdashboard"
+            element={
+              <RequireCook>
+                <CookDashboard />
+              </RequireCook>
+            }
+          />
+
+          <Route
+            path="/cookprofile"
+            element={
+              <RequireCook>
+                <CookProfile />
+              </RequireCook>
+            }
+          />
+
+          {/* USER AUTH */}
+          <Route path="/User/Login" element={<UserLogin />} />
+          <Route path="/User/SignUp" element={<UserSignup />} />
+          {/* Kitchenlist */}
+          <Route
+            path="/kitchens"
+            element={<Kitchenlist />}
+            
+          />
+          <Route path="/contact" element={<Contact />} />
+
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

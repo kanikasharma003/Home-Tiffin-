@@ -2,11 +2,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, X, Utensils } from "lucide-react";
 import { NAV_LINKS } from "../data.js";
-
+import { useAuth } from "../utils/UserAuth";
 function Navbar({ mode = "veg", onModeChange }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+const { isAuthenticated, logout } = useAuth();
 
+// logout function
+const handleLogout = () => {
+  setOpen(false);
+  logout();
+  navigate("/");
+};
 
   // ========================================
   // NAVIGATION
@@ -81,7 +88,7 @@ function Navbar({ mode = "veg", onModeChange }) {
   // ========================================
   const handleLogin = () => {
     setOpen(false);
-    navigate("/admin/login");
+    navigate("/User/Login");
   };
 
 
@@ -204,6 +211,7 @@ function Navbar({ mode = "veg", onModeChange }) {
 
 
           {/* LOGIN */}
+          {!isAuthenticated ? (
           <button
             onClick={handleLogin}
             className="rounded-xl border px-4 py-2.5 text-sm font-bold transition hover:bg-[var(--primary-soft)]"
@@ -214,7 +222,18 @@ function Navbar({ mode = "veg", onModeChange }) {
           >
             Login
           </button>
-
+          ):
+          (<button
+            onClick={handleLogout}
+            className="rounded-xl border px-4 py-2.5 text-sm font-bold transition hover:bg-[var(--primary-soft)]"
+            style={{
+              borderColor: "var(--primary-border)",
+              color: "var(--primary)",
+            }}
+          >
+            Login
+          </button>)
+}
 
           {/* ORDER NOW */}
           <button
