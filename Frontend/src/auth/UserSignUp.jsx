@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../utils/UserAuth";
-// import bannerImg from "../assets/home-tiffin-banner.png";
+import bannerImg from "../assets/home-tiffin-banner.png";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function UserSignup() {
@@ -68,7 +68,10 @@ export default function UserSignup() {
 
     try {
       await register(form);
-      navigate("/kitchens", { replace: true });
+
+      navigate("/kitchens", {
+        replace: true,
+      });
     } catch {
       setErrors({
         form: "Something went wrong. Please try again.",
@@ -79,17 +82,30 @@ export default function UserSignup() {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center md:justify-end p-4 sm:p-6 md:pr-16 bg-cover bg-center bg-red-200">
-      {/* Red overlay */}
-      <div className="absolute inset-0 bg-[#5f0f1f]/45" />
+    <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center md:justify-end p-4 sm:p-6 md:pr-16 bg-red-200">
+
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${bannerImg})`,
+        }}
+      />
 
       {/* Signup Card */}
       <div className="relative z-10 w-full max-w-sm rounded-2xl overflow-hidden border border-white/30 bg-white/15 backdrop-blur-xl shadow-2xl px-6 py-7 sm:px-8 sm:py-8">
+
         {/* Heading */}
-        <h1 className="text-2xl sm:text-3xl font-bold text-[#9d1c34] mb-2 text-center drop-shadow-sm">
+        <h1
+          className="text-2xl sm:text-3xl font-bold mb-2 text-center drop-shadow-sm"
+          style={{
+            color: "#e7133b",
+          }}
+        >
           Create Your Account
         </h1>
 
+        {/* Description */}
         <p className="text-sm text-gray-700 text-center mb-6 leading-relaxed">
           Sign up to discover
           <br />
@@ -103,7 +119,12 @@ export default function UserSignup() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4"
+          noValidate
+        >
+
           {/* Full Name */}
           <Field
             label="Full Name"
@@ -153,29 +174,44 @@ export default function UserSignup() {
                 className={`w-full rounded-lg border px-3 py-2.5 pr-11 text-sm text-gray-800 placeholder-gray-500 bg-white/70 backdrop-blur-sm focus:outline-none focus:ring-2 transition-all ${
                   errors.password
                     ? "border-red-400 focus:ring-red-300/50"
-                    : "border-gray-300 focus:border-[#9d1c34] focus:ring-[#9d1c34]/20"
+                    : "border-gray-300 focus:border-[#e7133b] focus:ring-[#e7133b]/20"
                 }`}
               />
 
+              {/* Show / Hide Password */}
               <button
                 type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9d1c34] hover:text-[#7d162a] transition-colors"
+                onClick={() =>
+                  setShowPassword((prev) => !prev)
+                }
+                className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
+                style={{
+                  color: "#e7133b",
+                }}
               >
-                {showPassword ? <Eye size={17} /> : <EyeOff size={17} />}
+                {showPassword ? (
+                  <Eye size={17} />
+                ) : (
+                  <EyeOff size={17} />
+                )}
               </button>
             </div>
 
             {errors.password && (
-              <p className="mt-1.5 text-xs text-red-600">{errors.password}</p>
+              <p className="mt-1.5 text-xs text-red-600">
+                {errors.password}
+              </p>
             )}
           </div>
 
-          {/* Create Account */}
+          {/* Create Account Button */}
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-[#9d1c34] hover:bg-[#7d162a] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-2.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+            className="w-full text-white font-semibold py-2.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
+            style={{
+              backgroundColor: "#e7133b",
+            }}
           >
             {submitting ? "Please wait..." : "Create Account"}
           </button>
@@ -184,9 +220,13 @@ export default function UserSignup() {
         {/* Login Link */}
         <p className="mt-5 text-center text-sm text-gray-700">
           Already have an account?{" "}
+
           <Link
             to="/User/Login"
-            className="font-bold text-[#9d1c34] hover:text-[#7d162a] transition-colors"
+            className="font-bold transition-colors"
+            style={{
+              color: "#e7133b",
+            }}
           >
             Log in
           </Link>
@@ -196,7 +236,16 @@ export default function UserSignup() {
   );
 }
 
-function Field({ label, name, value, onChange, error, ...rest }) {
+
+// Reusable Field Component
+function Field({
+  label,
+  name,
+  value,
+  onChange,
+  error,
+  ...rest
+}) {
   return (
     <div>
       <label className="block text-sm font-semibold text-gray-800 mb-1.5">
@@ -210,12 +259,16 @@ function Field({ label, name, value, onChange, error, ...rest }) {
         className={`w-full rounded-lg border px-3 py-2.5 text-sm text-gray-800 placeholder-gray-500 bg-white/70 backdrop-blur-sm focus:outline-none focus:ring-2 transition-all ${
           error
             ? "border-red-400 focus:ring-red-300/50"
-            : "border-gray-300 focus:border-[#9d1c34] focus:ring-[#9d1c34]/20"
+            : "border-gray-300 focus:border-[#e7133b] focus:ring-[#e7133b]/20"
         }`}
         {...rest}
       />
 
-      {error && <p className="mt-1.5 text-xs text-red-600">{error}</p>}
+      {error && (
+        <p className="mt-1.5 text-xs text-red-600">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
